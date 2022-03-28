@@ -9,7 +9,7 @@ class ConfigServerConstants
     const BASE_URL_FRONTEND_LOCAL = 'http://frontend.yii2advanced.local'; //Frontend
 
     //Real Domain URL
-    const BASE_URL_BACKEND = 'http://admin.mydomain.com'; //Backend
+    const BASE_URL_BACKEND = 'https://kubacel.com'; //Backend
     const BASE_URL_FRONTEND = 'http://www.mydomain.com'; //Frontend
 
     //To control change languages in system
