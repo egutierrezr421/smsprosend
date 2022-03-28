@@ -88,6 +88,13 @@ $this->params['breadcrumbs'][] = $this->title;
             'format'=> 'raw',
         ],
 
+        [
+            'attribute'=> 'response_qvatel',
+            'value'=> $model->response_qvatel,
+            'format' => 'html',
+            'visible' => GlobalFunctions::getRol() === User::ROLE_SUPERADMIN
+        ],
+
         'created_at'
             
     ],
