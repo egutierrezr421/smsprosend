@@ -3,6 +3,7 @@
 namespace backend\models\business;
 
 use backend\models\nomenclators\Country;
+use backend\models\UtilsConstants;
 use common\models\RegexCustomValidator;
 use common\models\User;
 use Yii;
@@ -205,17 +206,21 @@ class Customer extends BaseModel
     public static function minusLimitSms($customer_id, $quantity) {
         $model = self::findOne($customer_id);
         if($model !== null) {
-            $current_qty = (int) $model->max_sms;
 
-            if($quantity >= $current_qty)
-            {
-                $model->max_sms = 0;
-            }
-            else {
-                $model->max_sms = $model->max_sms - $quantity;
-            }
+            $type_access = (int) $model->send_sms_type;
+            if($type_access === UtilsConstants::TYPE_ACCESS_API_CUSTOMER_LIMIT_SMS && isset($model->max_sms) && !empty($model->max_sms)) {
+                $current_qty = (int) $model->max_sms;
 
-            $model->save(false);
+                if($quantity >= $current_qty)
+                {
+                    $model->max_sms = 0;
+                }
+                else {
+                    $model->max_sms = $model->max_sms - $quantity;
+                }
+
+                $model->save(false);
+            }
         }
     }
 }
