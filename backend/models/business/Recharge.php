@@ -149,11 +149,15 @@ class Recharge extends BaseModel
 
     /** :::::::::::: END > Abstract Methods and Overrides ::::::::::::*/
 
-    public static function getTotalAmountByStatus($status) {
+    public static function getTotalAmountByStatus($status, $user_id = null) {
         $query = self::find();
 
-        if(!User::isSuperAdmin()) {
-            $query->andWhere(['user_id' => Yii::$app->user->id]);
+        if($user_id !== null) {
+            $query->andWhere(['user_id' => $user_id]);
+        } else {
+            if(!User::isSuperAdmin()) {
+                $query->andWhere(['user_id' => Yii::$app->user->id]);
+            }
         }
 
         $query->andWhere(['status' => $status]);
@@ -163,12 +167,16 @@ class Recharge extends BaseModel
         return $result?? 0;
     }
 
-    public static function getTotalConsumed() {
+    public static function getTotalConsumed($user_id = null) {
         $query = Sms::find()
             ->leftJoin('user','sms.user_id = user.id');
 
-        if(!User::isSuperAdmin()) {
-            $query->andWhere(['sms.user_id' =>Yii::$app->user->id]);
+        if($user_id !== null) {
+            $query->andWhere(['sms.user_id' => $user_id]);
+        } else {
+            if(!User::isSuperAdmin()) {
+                $query->andWhere(['sms.user_id' =>Yii::$app->user->id]);
+            }
         }
 
         $result = $query->sum('sms.cost');
@@ -176,9 +184,9 @@ class Recharge extends BaseModel
         return $result?? 0;
     }
 
-    public static function getAvailableBalance() {
-        $mount_approv = self::getTotalAmountByStatus(UtilsConstants::RECHARGE_STATUS_APPROVED);
-        $amount_consumed = self::getTotalConsumed();
+    public static function getAvailableBalance($user_id = null) {
+        $mount_approv = self::getTotalAmountByStatus(UtilsConstants::RECHARGE_STATUS_APPROVED, $user_id);
+        $amount_consumed = self::getTotalConsumed($user_id);
 
         return ($mount_approv > 0) ? $mount_approv - $amount_consumed : 0;
     }

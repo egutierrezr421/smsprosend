@@ -27,28 +27,80 @@ use backend\widgets\CustomMenu;
                 'url' => ['/site/index'],
             ],
 
+            //clientes
             [
                 'label' => Yii::t("backend","Clientes"),
-                'icon' => 'user',
-                'url' => ['/customer/index'],
-            ],
-
-            [
-                'label' => Yii::t("backend","Grupos de clientes"),
                 'icon' => 'users',
-                'url' => ['/group-customer/index'],
+                'url' => '#',
+                'items' => [
+                    [
+                        'label' => Yii::t("backend","Todos tus clientes"),
+                        'icon' => 'circle-o',
+                        'url' => ['/customer/index'],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend","Grupos de clientes"),
+                        'icon' => 'circle-o',
+                        'url' => ['/group-customer/index'],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend","Negocios asociados"),
+                        'icon' => 'circle-o',
+                        'url' => [''],
+                    ],
+                ],
             ],
 
+            //Mensajes
             [
-                'label' => Yii::t("backend","Mensajes simples"),
+                'label' => Yii::t("backend","Nuevo"),
                 'icon' => 'commenting',
-                'url' => ['/sms/index'],
-            ],
+                'url' => '#',
+                'items' => [
+                    [
+                        'label' => Yii::t("backend","Enviar SMS simple"),
+                        'icon' => 'circle-o',
+                        'url' => ['/sms/create'],
+                    ],
 
-            [
-                'label' => Yii::t("backend","Mensajes grupales"),
-                'icon' => 'commenting-o',
-                'url' => ['/sms-group/index'],
+                    [
+                        'label' => Yii::t("backend","Enviar SMS grupal"),
+                        'icon' => 'circle-o',
+                        'url' => ['/sms-group/create'],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend","Enviar SMS encriptado"),
+                        'icon' => 'circle-o',
+                        'url' => [''],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend","Enviar SMS PRO simple"),
+                        'icon' => 'circle-o',
+                        'url' => [''],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend","Enviar SMS PRO grupal"),
+                        'icon' => 'circle-o',
+                        'url' => [''],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend","SMS enviados"),
+                        'icon' => 'circle-o',
+                        'url' => ['/sms/index'],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend","SMS grupales enviados"),
+                        'icon' => 'circle-o',
+                        'url' => ['/sms-group/index'],
+                    ],
+                ],
             ],
 
             [
@@ -61,6 +113,12 @@ use backend\widgets\CustomMenu;
                 'label' => Yii::t("backend","Integración API"),
                 'icon' => 'code',
                 'url' => ['/app-access/index'],
+            ],
+
+            [
+                'label' => Yii::t("backend", "Documentación API"),
+                'icon' => 'book',
+                'url' => ['/api-doc/index'],
             ],
 
 
@@ -146,11 +204,6 @@ use backend\widgets\CustomMenu;
                                 'url' => ['/faq/index'],
                             ],
 
-                            [
-                                'label' => Yii::t("backend", "Documentación API"),
-                                'icon' => 'book',
-                                'url' => ['/api-doc/index'],
-                            ],
                             [
                                 'label' => Yii::t("backend", "Tareas de CronJob"),
                                 'icon' => 'clock-o',

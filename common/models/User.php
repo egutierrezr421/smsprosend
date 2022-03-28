@@ -1,8 +1,12 @@
 <?php
 namespace common\models;
 
+use backend\models\business\AppAccess;
 use backend\models\business\Customer;
 use backend\models\business\GroupCustomer;
+use backend\models\business\Recharge;
+use backend\models\business\Sms;
+use backend\models\business\SmsGroup;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
@@ -32,8 +36,13 @@ use yii\helpers\Url;
  * @property string $created_at
  * @property string $updated_at
  *
+ * @property AppAccess[] $appAccesses
  * @property Customer[] $customers
  * @property GroupCustomer[] $groupCustomers
+ * @property Recharge[] $recharges
+ * @property Recharge[] $recharges0
+ * @property Sms[] $sms
+ * @property SmsGroup[] $smsGroups
  *
  */
 
@@ -165,6 +174,14 @@ class User extends ActiveRecord implements IdentityInterface
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getAppAccesses()
+    {
+        return $this->hasMany(AppAccess::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getCustomers()
     {
         return $this->hasMany(Customer::className(), ['user_id' => 'id']);
@@ -176,6 +193,38 @@ class User extends ActiveRecord implements IdentityInterface
     public function getGroupCustomers()
     {
         return $this->hasMany(GroupCustomer::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecharges()
+    {
+        return $this->hasMany(Recharge::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getRecharges0()
+    {
+        return $this->hasMany(Recharge::className(), ['authorized_by' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSms()
+    {
+        return $this->hasMany(Sms::className(), ['user_id' => 'id']);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSmsGroups()
+    {
+        return $this->hasMany(SmsGroup::className(), ['user_id' => 'id']);
     }
 
 

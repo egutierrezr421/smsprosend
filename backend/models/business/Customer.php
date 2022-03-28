@@ -193,7 +193,29 @@ class Customer extends BaseModel
         return $array_map;
     }
 
+    /**
+     * @param int $longitude
+     * @return string
+     * @throws \Exception
+     */
     public static function generateToken($longitude = 15) {
         return bin2hex(random_bytes(($longitude - ($longitude % 2)) / 2));
+    }
+
+    public static function minusLimitSms($customer_id, $quantity) {
+        $model = self::findOne($customer_id);
+        if($model !== null) {
+            $current_qty = (int) $model->max_sms;
+
+            if($quantity >= $current_qty)
+            {
+                $model->max_sms = 0;
+            }
+            else {
+                $model->max_sms = $model->max_sms - $quantity;
+            }
+
+            $model->save(false);
+        }
     }
 }

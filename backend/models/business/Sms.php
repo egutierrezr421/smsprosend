@@ -259,4 +259,32 @@ class Sms extends BaseModel
         return false;
     }
 
+    public function fields()
+    {
+        $result = parent::fields();
+
+        unset($result['id_msg']);
+        unset($result['encrypt_type']);
+        unset($result['response_qvatel']);
+        unset($result['updated_at']);
+
+        $result['country_name'] = function ($model) {
+            return $model->country->name;
+        };
+
+        $result['customer_name'] = function ($model) {
+            return ($model->customer_id)? $model->customer->name : null;
+        };
+
+        $result['status_name'] = function ($model) {
+            return UtilsConstants::getSmsStatuses($model->status);
+        };
+
+        $result['receptor_full_phone_number'] = function ($model) {
+            return '+'.$model->country->phone_code.''.$model->receptor_phone_number;
+        };
+
+        return $result;
+    }
+
 }

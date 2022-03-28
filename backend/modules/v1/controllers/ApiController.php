@@ -7,6 +7,7 @@ use backend\models\support\ApiRequestLog;
 use common\models\User;
 use Yii;
 use yii\filters\auth\HttpBearerAuth;
+use yii\filters\auth\QueryParamAuth;
 use yii\helpers\ArrayHelper;
 use yii\helpers\HtmlPurifier;
 use yii\rest\ActiveController;
@@ -46,7 +47,7 @@ class ApiController extends ActiveController
         ];
 
         $behaviors['authenticator'] = [
-            'class' => HttpBearerAuth::className(),
+            'class' => QueryParamAuth::className(),
         ];
 
         header('Access-Control-Allow-Origin: *');
@@ -131,29 +132,29 @@ class ApiController extends ActiveController
      */
     public function getAccessToken()
     {
-        $access_token = Yii::$app->request->headers->get('access_token', null);
+        $access_token = Yii::$app->request->headers->get('access-token', null);
         if (!isset($access_token) || empty($access_token)) {
-            $access_token = Yii::$app->request->headers->get('auth_key', null);
+            $access_token = Yii::$app->request->headers->get('auth-key', null);
         }
 
         if (!isset($access_token) || empty($access_token)) {
-            $access_token = Yii::$app->request->post('access_token', null);
+            $access_token = Yii::$app->request->post('access-token', null);
         }
         if (!isset($access_token) || empty($access_token)) {
-            $access_token = Yii::$app->request->post('auth_key', null);
+            $access_token = Yii::$app->request->post('auth-key', null);
         }
         if (!isset($access_token) || empty($access_token)) {
-            $access_token = Yii::$app->request->getQueryParam('access_token', null);
+            $access_token = Yii::$app->request->getQueryParam('access-token', null);
         }
         if (!isset($access_token) || empty($access_token)) {
-            $access_token = Yii::$app->request->getQueryParam('auth_key', null);
+            $access_token = Yii::$app->request->getQueryParam('auth-key', null);
         }
         if (!isset($access_token) || empty($access_token)) {
             $raw_body = Yii::$app->request->getRawBody();
             $raw_body_array = json_decode($raw_body, true);
-            $access_token = ArrayHelper::getValue($raw_body_array, "access_token", null);
+            $access_token = ArrayHelper::getValue($raw_body_array, 'access-token', null);
             if (!isset($access_token) || empty($access_token)) {
-                $access_token = ArrayHelper::getValue($raw_body_array, "auth_key", null);
+                $access_token = ArrayHelper::getValue($raw_body_array, 'auth-key', null);
             }
         }
 

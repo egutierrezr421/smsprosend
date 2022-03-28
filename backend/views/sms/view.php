@@ -40,7 +40,13 @@ $this->params['breadcrumbs'][] = $this->title;
     'labelColOptions' => ['style' => 'width: 40%'],
     'attributes' => [
             'id',
-            'id_msg',
+
+        [
+            'attribute'=> 'id_msg',
+            'value'=> $model->id_msg,
+            'format' => 'html',
+            'visible' => GlobalFunctions::getRol() === User::ROLE_SUPERADMIN
+        ],
 
         [
             'attribute'=> 'user_id',
