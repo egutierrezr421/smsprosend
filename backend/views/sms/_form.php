@@ -58,6 +58,7 @@ use backend\models\nomenclators\Country;
             <?=
             $form->field($model, "message")->textarea(['rows' => 4])
             ?>
+            <div style="float: right;" class="help-block help-block-error"><span id="counter">0</span>/150 caracteres</div>
         </div>
     </div>
 
@@ -67,4 +68,29 @@ use backend\models\nomenclators\Country;
     <?= Html::a('<i class="fa fa-remove"></i> '.Yii::t('backend','Cancelar'),['index'], ['class' => 'btn btn-default btn-flat margin', 'title' => Yii::t('backend','Cancelar')]) ?>
 </div>
 <?php ActiveForm::end(); ?>
+
+<?php
+$url = \yii\helpers\Url::to(['payment-method/get-payment']);
+$js_main = <<<JS
+$(document).ready(function(e) {
+    
+       updateData();
+        	       
+		$("#sms-message").keyup(function (e) {
+		    updateData();
+	    });
+		
+		function updateData() {
+		    var method_id = $("#sms-message").val();
+		    var countCharacter = method_id.length;
+		    
+		    $("#counter").html(countCharacter);
+		    
+		}
+});
+JS;
+
+// Register action buttons js
+$this->registerJs($js_main);
+?>
 

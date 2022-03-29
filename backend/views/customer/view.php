@@ -76,7 +76,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 [
                     'attribute'=> 'send_sms_type',
-                    'value'=> UtilsConstants::getCustomerSmsAccessType($model->send_sms_type),
+                    'value'=> (isset($model->send_sms_type) && !empty($model->send_sms_type))? UtilsConstants::getCustomerSmsAccessType($model->send_sms_type) : null,
                     'format'=> 'html',
                 ],
 

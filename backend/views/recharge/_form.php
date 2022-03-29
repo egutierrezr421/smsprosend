@@ -81,6 +81,17 @@ use backend\models\UtilsConstants;
         <?php if (GlobalFunctions::getRol() === User::ROLE_SUPERADMIN) : ?>
             <div class="col-md-4">
                 <?=
+                $form->field($model, "user_id")->widget(Select2::classname(), [
+                    "data" => User::getSelectMap(),
+                    "language" => Yii::$app->language,
+                    "options" => ["placeholder" => "----", "multiple"=>false],
+                    "pluginOptions" => [
+                        "allowClear" => true
+                    ],
+                ]);
+                ?>
+
+                <?=
                 $form->field($model, "status")->widget(Select2::classname(), [
                     "data" => UtilsConstants::getRechargeStatuses(),
                     "language" => Yii::$app->language,
@@ -92,6 +103,19 @@ use backend\models\UtilsConstants;
                 ?>
 
                 <?=
+                $form->field($model, "authorized_by")->widget(Select2::classname(), [
+                    "data" => User::getSelectMap(),
+                    "language" => Yii::$app->language,
+                    "options" => ["placeholder" => "----", "multiple"=>false],
+                    "pluginOptions" => [
+                        "allowClear" => true
+                    ],
+                ]);
+                ?>
+            </div>
+            <div class="col-md-4">
+
+                <?=
                 $form->field($model, "rejected_note")->widget(CKEditor::className(), [
                     "preset" => "custom",
                     "clientOptions" => [
@@ -99,9 +123,11 @@ use backend\models\UtilsConstants;
                     ],
                 ])
                 ?>
-                <?= $form->field($model, 'commission')->hiddenInput()->label(false)->error(false) ?>
             </div>
         <?php endif; ?>
+
+        <?= $form->field($model, 'commission')->hiddenInput()->label(false)->error(false) ?>
+
     </div>
     <div class="row">
         <div class="col-md-12">

@@ -26,6 +26,9 @@ class UtilsConstants
     const TYPE_ACCESS_API_CUSTOMER_BALANCE = 1;
     const TYPE_ACCESS_API_CUSTOMER_LIMIT_SMS = 2;
 
+    const PREFIX_TOKEN_APP = 'APP-';
+    const PREFIX_TOKEN_CUSTOMER = 'CUS-';
+
     /**
      * @param $array
      * @param $value

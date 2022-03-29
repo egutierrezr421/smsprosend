@@ -2,6 +2,7 @@
 
 namespace backend\models\business;
 
+use backend\models\UtilsConstants;
 use common\models\User;
 use Yii;
 use backend\models\BaseModel;
@@ -112,6 +113,6 @@ class AppAccess extends BaseModel
     /** :::::::::::: END > Abstract Methods and Overrides ::::::::::::*/
 
     public static function generateToken($longitude = 15) {
-        return bin2hex(random_bytes(($longitude - ($longitude % 2)) / 2));
+        return UtilsConstants::PREFIX_TOKEN_APP.''.bin2hex(random_bytes(($longitude - ($longitude % 2)) / 2));
     }
 }

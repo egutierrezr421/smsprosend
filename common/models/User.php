@@ -36,6 +36,8 @@ use yii\helpers\Url;
  * @property string $phone
  * @property string $created_at
  * @property string $updated_at
+ * @property float $balance
+ * @property string $url_to_notify_delivery
  *
  * @property AppAccess[] $appAccesses
  * @property Customer[] $customers
@@ -81,10 +83,10 @@ class User extends ActiveRecord implements IdentityInterface
 	public function scenarios()
 	{
 		return [
-			self::SCENARIO_CREATE => ['username', 'email', 'auth_key', 'auth_key_test', 'name', 'last_name','status','switch_status','password_hash','role','seniority', 'skills', 'personal_stuff','position','phone'],
-			self::SCENARIO_UPDATE => ['username', 'email', 'auth_key', 'auth_key_test', 'name', 'last_name','status','switch_status','password_hash','role','seniority', 'skills', 'personal_stuff','position','phone'],
+			self::SCENARIO_CREATE => ['username', 'email', 'auth_key', 'auth_key_test', 'name', 'last_name','status','switch_status','password_hash','role','seniority', 'skills', 'personal_stuff','position','phone','balance','url_to_notify_delivery'],
+			self::SCENARIO_UPDATE => ['username', 'email', 'auth_key', 'auth_key_test', 'name', 'last_name','status','switch_status','password_hash','role','seniority', 'skills', 'personal_stuff','position','phone','balance','url_to_notify_delivery'],
             self::SCENARIO_CHANGE_PASSWORD => [ 'auth_key','password_hash'],
-            self::SCENARIO_SING_UP => ['username', 'email', 'auth_key', 'name', 'last_name','password_hash','phone'],
+            self::SCENARIO_SING_UP => ['username', 'email', 'auth_key', 'name', 'last_name','password_hash','phone','balance'],
             self::SCENARIO_RESET_PASSWORD => ['email', 'password_hash','auth_key','password_reset_token'],
         ];
 	}
@@ -126,9 +128,10 @@ class User extends ActiveRecord implements IdentityInterface
 				[['status', 'switch_status'], 'integer'],
 				[['fileAvatar','avatar','switch_status','created_at', 'updated_at'], 'safe'],
 				[['fileAvatar'], 'file', 'extensions'=>'jpg, gif, png, svg, jpeg'],
+                ['balance','number'],
 
             //format
-				[['username', 'password_hash', 'password_reset_token', 'email', 'avatar', 'role', 'position'], 'string', 'max' => 255],
+				[['username', 'password_hash', 'password_reset_token', 'email', 'avatar', 'role', 'position','url_to_notify_delivery'], 'string', 'max' => 255],
 				[['auth_key', 'auth_key_test'], 'string', 'max' => 32],
 				[['name', 'last_name', 'phone'], 'string', 'max' => 50],
                 [['seniority', 'skills', 'personal_stuff'], 'string'],
@@ -169,6 +172,7 @@ class User extends ActiveRecord implements IdentityInterface
             'skills' => Yii::t('common', 'Habilidades'),
             'personal_stuff' => Yii::t('common', 'Cosas personales'),
             'phone' => Yii::t('common', 'Teléfono'),
+            'balance' => Yii::t('common', 'Balance'),
 		];
 	}
 
@@ -686,13 +690,14 @@ class User extends ActiveRecord implements IdentityInterface
             'id' => $this->id,
             'username'=>$this->username,
             'authKey'=>$this->auth_key,
-            'authKeyTest'=>$this->auth_key_test,
             'name' => isset($this->name) && !empty($this->name)? $this->name : "",
             'lastName' => isset($this->last_name) && !empty($this->last_name)? $this->last_name : "",
             'email' => isset($this->email) && !empty($this->email)? $this->email : "",
             'status' => self::getStatusValue($this->status, true),
             'avatar' => Yii::$app->urlManager->getBaseUrl() . "/" . $this->getImageUrl(),
-            'phone' => $this->phone,
+            'phone' => isset($this->phone) && !empty($this->phone)? $this->phone : "",
+            'balance' =>isset($this->balance) && !empty($this->balance)? $this->balance : "",
+            'url_to_notify_delivery' =>isset($this->url_to_notify_delivery) && !empty($this->url_to_notify_delivery)? $this->url_to_notify_delivery : "",
         ];
     }
 

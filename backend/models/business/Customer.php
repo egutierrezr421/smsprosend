@@ -200,7 +200,7 @@ class Customer extends BaseModel
      * @throws \Exception
      */
     public static function generateToken($longitude = 15) {
-        return bin2hex(random_bytes(($longitude - ($longitude % 2)) / 2));
+        return UtilsConstants::PREFIX_TOKEN_CUSTOMER.''.bin2hex(random_bytes(($longitude - ($longitude % 2)) / 2));
     }
 
     public static function minusLimitSms($customer_id, $quantity) {

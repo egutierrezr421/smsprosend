@@ -106,15 +106,49 @@ class SmsController extends ApiController
             );
         }
 
-
         //Validar que se recibe el paramtro receptor commo arreglo y que el costo del envio no supere el balance del usuario
         $receptors_array = ArrayHelper::getValue($params, "receptors", []);
         $total_cost = 0;
         $count_sms = count($receptors_array);
         if($count_sms > 0) {
+            $valid_phone_numbers = true;
+            $valid_countries = true;
+
             foreach ($receptors_array AS $index => $value) {
-                $receptor_country = Country::findOne($value['country_id']);
-                $total_cost += $receptor_country->sms_price;
+                //validar que el phone_number tenga el formato correcto "phone_code+space+phone_number"
+                $explode = explode(' ',$value['phone_number']);
+                if(count($explode) !== 2) {
+                    $valid_phone_numbers = false;
+                    break;
+                }
+                else
+                {
+                    //validar que los paises destino esten permitidos en el sistema
+                    $phone_code = $explode[0];
+                    $receptor_country = Country::findOne(['phone_code' => $phone_code, 'status' => 1]);
+                    if($receptor_country !== null) {
+                        $total_cost += $receptor_country->sms_price;
+                    }
+                    else
+                    {
+                        $valid_countries = false;
+                        break;
+                    }
+                }
+            }
+
+            if(!$valid_phone_numbers){
+                return ApiUtilsFunctions::getResponseType(
+                    ApiUtilsFunctions::TYPE_ERROR,
+                    Yii::t("backend", "Phone number no es un teléfono válido, debe contener el código telefónico de país seguido de un espacio seguido del número telefónico. Ej:1 7864561569")
+                );
+            }
+
+            if(!$valid_countries){
+                return ApiUtilsFunctions::getResponseType(
+                    ApiUtilsFunctions::TYPE_ERROR,
+                    Yii::t("backend", "País destino para enviar mensajes no permitido")
+                );
             }
 
             if($total_cost > Recharge::getAvailableBalance($user_id)) {
@@ -151,6 +185,16 @@ class SmsController extends ApiController
             }
         }
 
+        //validar longitud del mensaje que se envia
+        $message = ArrayHelper::getValue($params, "message", null);
+        $count_characters_message = strlen($message);
+        if($count_characters_message > 150) {
+            return ApiUtilsFunctions::getResponseType(
+                ApiUtilsFunctions::TYPE_ERROR,
+                Yii::t('backend', 'El mensaje a enviar no puede exceder los 150 caracteres.')
+            );
+        }
+
         $sendOK = true;
         $nameErrorSend = '';
         $contNameErrorSend  = 0;
@@ -159,17 +203,20 @@ class SmsController extends ApiController
         $count_items = count($receptors);
 
         foreach ($receptors AS $key => $value) {
+            $explode = explode(' ',$value['phone_number']);
+            $phone_code = trim($explode[0]);
+            $phone_number = trim($explode[1]);
+            $receptor_country = Country::findOne(['phone_code' => $phone_code, 'status' => 1]);
 
-            $receptor_country = Country::findOne($value['country_id']);
             $cost = $receptor_country->sms_price;
-            $phone_number_complete = '+'.$receptor_country->phone_code.''.$value['phone_number'];
+            $phone_number_complete = '+'.$phone_code.''.$phone_number;
 
             $model = new Sms([
                 'user_id' => $result_access['user_id'],
                 'customer_id' => $result_access['customer_id'],
-                'message' => ArrayHelper::getValue($params, "message", null),
+                'message' => $message,
                 'receptor_country_id' => $receptor_country->id,
-                'receptor_phone_number' => $value['phone_number'],
+                'receptor_phone_number' => $phone_number,
                 'status' => UtilsConstants::SMS_STATUS_SENDED,
                 'cost' => (isset($cost) && !empty($cost))? $cost : 0.05,
             ]);
@@ -222,17 +269,21 @@ class SmsController extends ApiController
 
         $query = Sms::find()->where(['status' => [UtilsConstants::SMS_STATUS_SENDED, UtilsConstants::SMS_STATUS_PENDING]]);
 
-        if($id !== null) {
+        if ($id !== null) {
             $query->andWhere(['id' => $id]);
         }
 
-        if(GlobalFunctions::getRol($result_access['user_id']) !== User::ROLE_SUPERADMIN) {
-            $query->andWhere(['user_id' => Yii::$app->user->id]);
+        if (GlobalFunctions::getRol($result_access['user_id']) !== User::ROLE_SUPERADMIN) {
+            $query->andWhere(['user_id' => $result_access['user_id']]);
         }
 
         $models = $query->all();
 
         $count_items = count($models);
+
+        if($count_items === 0) {
+            return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_SUCCESS, Yii::t('backend', 'No hay elementos para actualizar'));
+        }
 
         $updateOK = true;
         $nameErrorUpdate = '';
@@ -255,7 +306,8 @@ class SmsController extends ApiController
 
             return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_SUCCESS, $message);
 
-        } else {
+        }
+        else {
             if($count_items === 1) {
                 if($contNameErrorUpdate ===1) {
                     $message = Yii::t('backend','Error chequeando estado del elemento').': <b>'.$nameErrorUpdate.'</b>';
@@ -279,6 +331,7 @@ class SmsController extends ApiController
         $access_token = ArrayHelper::getValue($params, "access-token", null);
         $app_token = ArrayHelper::getValue($params, "app-token", null);
         $customer_token = ArrayHelper::getValue($params, "customer-token", null);
+        $general_token = ArrayHelper::getValue($params, "api-token", null);
 
         if(isset($access_token) && !empty($access_token))
         {
@@ -308,6 +361,38 @@ class SmsController extends ApiController
             $result = ['user_id' => $customer->user_id, 'customer_id' => $customer->id];
 
         }
+        elseif(isset($general_token) && !empty($general_token))
+        {
+            $token_type = substr($general_token,0,4);
+
+            if($token_type == UtilsConstants::PREFIX_TOKEN_APP)
+            {
+                $user = User::find()->innerJoinWith('appAccesses')->where(['app_access.token' => $general_token])->one();
+                $allow_access = ($user !== null);
+                if(!$allow_access) {
+                    return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_FORBIDDEN,Yii::t('backend','Token de acceso no válido'));
+                }
+                $result = ['user_id' => $user->id, 'customer_id' => null];
+            }
+            elseif($token_type == UtilsConstants::PREFIX_TOKEN_CUSTOMER) {
+                $customer = Customer::find()->where(['token' => $general_token,'allow_send_sms' => 1])->one();
+                $allow_access = ($customer !== null);
+                if(!$allow_access) {
+                    return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_FORBIDDEN,Yii::t('backend','Token de acceso no válido'));
+                }
+                $result = ['user_id' => $customer->user_id, 'customer_id' => $customer->id];
+            }
+            else
+            {
+                $user = User::findIdentityByAccessToken($general_token);
+                $allow_access = ($user !== null);
+                if(!$allow_access) {
+                    return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_FORBIDDEN,Yii::t('backend','Token de acceso no válido'));
+                }
+                $result = ['user_id' => $user->id, 'customer_id' => null];
+            }
+        }
+
         if(!$allow_access) {
             return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_FORBIDDEN,Yii::t('backend','Token de acceso no válido'));
         }
@@ -315,6 +400,5 @@ class SmsController extends ApiController
             return $result;
         }
     }
-
 
 }
