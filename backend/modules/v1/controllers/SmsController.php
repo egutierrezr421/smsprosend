@@ -308,8 +308,12 @@ class SmsController extends ApiController
             $result = ['user_id' => $customer->user_id, 'customer_id' => $customer->id];
 
         }
-
-        return $result;
+        if(!$allow_access) {
+            return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_FORBIDDEN,Yii::t('backend','Token de acceso no válido'));
+        }
+        else {
+            return $result;
+        }
     }
 
 

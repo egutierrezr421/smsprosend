@@ -40,12 +40,6 @@ class CustomerController extends ApiController
         return $actions;
     }
 
-    public function actionIndex()
-    {
-        $data = Customer::find()->all();
-
-        return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_INDEX_RESPONSE,'',$data);
-    }
 
     public function actionView($id)
     {

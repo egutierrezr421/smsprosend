@@ -167,6 +167,20 @@ return [
                     'controller' => 'v1/receive',
                     'pluralize' => false,
                 ],
+                [
+                    'class'=> 'yii\rest\UrlRule',
+                    'controller' => 'v1/recharge',
+                    'pluralize' => false,
+                    'extraPatterns' => [
+                        'POST update/<id:\d+>' => 'update',
+                        'POST approv/<id:\d+>' => 'approv',
+                    ]
+                ],
+                [
+                    'class'=> 'yii\rest\UrlRule',
+                    'controller' => 'v1/sms',
+                    'pluralize' => false,
+                ],
             ]
         ],
 //        'mail' => [

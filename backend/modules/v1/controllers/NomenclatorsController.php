@@ -51,5 +51,11 @@ class NomenclatorsController extends ActiveController
         return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_INDEX_RESPONSE,'',$data);
     }
 
+    public function actionGetRechargeStatuses()
+    {
+        $data[] = UtilsConstants::getRechargeStatuses();
+        return ApiUtilsFunctions::getResponseType(ApiUtilsFunctions::TYPE_INDEX_RESPONSE,'',$data);
+    }
+
 }
 
