@@ -30,7 +30,10 @@ class ApiDoc extends BaseModel
 {
     const GENERIC_SELECT_TYPE_AUTH = 1;
     const GENERIC_SELECT_TYPE_USER = 2;
-    const GENERIC_SELECT_TYPE_TEST = 4;
+    const GENERIC_SELECT_TYPE_SMS = 3;
+    const GENERIC_SELECT_TYPE_NOMENCLATORS = 4;
+    const GENERIC_SELECT_TYPE_CUSTOMERS = 5;
+    const GENERIC_SELECT_TYPE_RECHARGE = 6;
 
     public $type_select_export;
 
@@ -142,7 +145,10 @@ class ApiDoc extends BaseModel
 
         $array[self::GENERIC_SELECT_TYPE_AUTH] = Yii::t('backend', 'Autenticación');
         $array[self::GENERIC_SELECT_TYPE_USER] = Yii::t('backend', 'Usuarios');
-        $array[self::GENERIC_SELECT_TYPE_TEST] = Yii::t('backend', 'Prueba');
+        $array[self::GENERIC_SELECT_TYPE_SMS] = Yii::t('backend', 'Mensajes');
+        $array[self::GENERIC_SELECT_TYPE_NOMENCLATORS] = Yii::t('backend', 'Nomencladores');
+        $array[self::GENERIC_SELECT_TYPE_CUSTOMERS] = Yii::t('backend', 'Clientes');
+        $array[self::GENERIC_SELECT_TYPE_RECHARGE] = Yii::t('backend', 'Recargas');
 
         if ($value !== null) {
             return (isset($array[$value]) && !empty($array[$value]))? $array[$value] : null;
