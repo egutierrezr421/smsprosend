@@ -82,7 +82,8 @@ class SignupForm extends Model
 
         if($user->save())
         {
-            //$this->sendEmail($user);
+            $this->sendEmail($user);
+            $this->sendEmailAdmin($user);
             $role = \Yii::$app->authManager->getRole($role_selected);
             \Yii::$app->authManager->revokeAll($user->id);
             \Yii::$app->authManager->assign($role, $user->id);
@@ -94,6 +95,7 @@ class SignupForm extends Model
             return $user->getErrors();
         }
     }
+
     /**
      * Sends confirmation email to user
      * @param User $user user model to with email should be send
@@ -101,12 +103,43 @@ class SignupForm extends Model
      */
     protected function sendEmail($user)
     {
-        $email = Setting::getEmail();
         $subject = Yii::t('backend','Registro de cuenta en {site_name}',['site_name'=> Setting::getName()]);
 
-        $mailer = Yii::$app->mail->compose(['html' => 'emailVerify-html', 'text' => 'emailVerify-text'], ['user' => $user])
+        $mailer = Yii::$app->mail->compose(['html' => 'signup-html'], ['user' => $user])
             ->setTo($this->email)
-            ->setFrom($email)
+            ->setFrom([Setting::getEmail() => Setting::getName()])
+            ->setSubject($subject);
+
+        try
+        {
+            if($mailer->send())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (\Swift_TransportException $e)
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Sends confirmation email to user
+     * @param User $user user model to with email should be send
+     * @return bool whether the email was sent
+     */
+    protected function sendEmailAdmin($user)
+    {
+        $subject = Yii::t('backend','Nuevo usuario registrado en {site_name}',['site_name'=> Setting::getName()]);
+        $superadmin_email = User::findOne(1)->email;
+
+        $mailer = Yii::$app->mail->compose(['html' => 'signup-notify-admin-html'], ['user' => $user])
+            ->setTo($superadmin_email)
+            ->setFrom([Setting::getEmail() => Setting::getName()])
             ->setSubject($subject);
 
         try

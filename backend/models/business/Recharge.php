@@ -3,6 +3,7 @@
 namespace backend\models\business;
 
 use backend\models\nomenclators\PaymentMethod;
+use backend\models\settings\Setting;
 use backend\models\UtilsConstants;
 use common\models\User;
 use Yii;
@@ -190,5 +191,71 @@ class Recharge extends BaseModel
 
         return ($mount_approv > 0) ? $mount_approv - $amount_consumed : 0;
     }
+
+
+    /**
+     * Sends confirmation email to user
+     * @param User $user user model to with email should be send
+     * @return bool whether the email was sent
+     */
+    public static function sendEmailApprov($user)
+    {
+        $subject = Yii::t('backend','Recarga aprobada en {site_name}',['site_name'=> Setting::getName()]);
+
+        $mailer = Yii::$app->mail->compose(['html' => 'approv-recharge-html'], ['user' => $user])
+            ->setTo($user->email)
+            ->setFrom([Setting::getEmail() => Setting::getName()])
+            ->setSubject($subject);
+
+        try
+        {
+            if($mailer->send())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (\Swift_TransportException $e)
+        {
+            return false;
+        }
+    }
+
+    /**
+     * Sends confirmation email to user
+     * @param User $user user model to with email should be send
+     * @return bool whether the email was sent
+     */
+    public static function sendEmailAdmin($recharge_id)
+    {
+        $subject = Yii::t('backend','Nueva solicitud de recarga en {site_name}',['site_name'=> Setting::getName()]);
+        $superadmin_email = User::findOne(1)->email;
+
+        $mailer = Yii::$app->mail->compose(['html' => 'recharge-notify-admin-html'], ['recharge_id' => $recharge_id])
+            ->setTo($superadmin_email)
+            ->setFrom([Setting::getEmail() => Setting::getName()])
+            ->setSubject($subject);
+
+        try
+        {
+            if($mailer->send())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (\Swift_TransportException $e)
+        {
+            return false;
+        }
+    }
+
+
 
 }

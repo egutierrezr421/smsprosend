@@ -45,12 +45,14 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute'=> 'user_id',
             'value'=> (isset($model->user_id) && !empty($model->user_id))? User::getFullNameByUserId($model->user_id) : null,
             'format' => 'html',
+            'visible' => GlobalFunctions::getRol() === User::ROLE_SUPERADMIN
         ],
             
         [
             'attribute'=> 'authorized_by',
             'value'=> GlobalFunctions::formatNumber($model->authorized_by),
             'format'=> 'html',
+            'visible' => GlobalFunctions::getRol() === User::ROLE_SUPERADMIN
         ],
             
         [
@@ -69,6 +71,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'attribute'=> 'commission',
             'value'=> GlobalFunctions::formatNumber($model->commission,2),
             'format'=> 'html',
+            'visible' => GlobalFunctions::getRol() === User::ROLE_SUPERADMIN
         ],
             
         [
@@ -104,13 +107,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'value'=> GlobalFunctions::formatDateToShowInSystem($model->created_at),
             'format'=> 'html',
         ],
-            
-        [
-            'attribute'=> 'updated_at',
-            'value'=> GlobalFunctions::formatDateToShowInSystem($model->updated_at),
-            'format'=> 'html',
-        ],
-            
+
     ],
     ]) ?>
 </div>

@@ -209,8 +209,9 @@ class UserController extends Controller
             {
                 if(isset($user->id) && !empty($user->id))
                 {
-                    GlobalFunctions::addFlashMessage('success',Yii::t('backend','Usuario registrado correctamente pendiente de activación. Espere un email para poner acceder.'));
+                    GlobalFunctions::addFlashMessage('success',Yii::t('backend','Usuario registrado correctamente pendiente de activación. Espere un email para poder acceder.'));
                     Notification::notify(Notification::KEY_NEW_USER_REGISTRED, 1, $user->id);
+
                     if (Yii::$app->getUser()->login($user)) {
                         return $this->goHome();
                     }
@@ -337,6 +338,7 @@ class UserController extends Controller
 	        if($user->save(true,$allScenarios[$user->scenario]))
 	        {
 		        $user->save();
+		        User::sendEmailApprovAccount($user);
 		        GlobalFunctions::addFlashMessage('success',Yii::t('backend','Usuario activado satisfactoriamente'));
 		        return $this->redirect(['index']);
             }
@@ -451,6 +453,8 @@ class UserController extends Controller
 		else
 			$model->switch_status = 0;
 
+		$old_status = (int) $model->status;
+
 		$old_role = GlobalFunctions::getRol($model->id);
 
 		$model->role = $old_role;
@@ -482,6 +486,12 @@ class UserController extends Controller
 			{
                 if($model->save())
                 {
+                    $new_status = (int) $model->status;
+
+                    if($old_status === User::STATUS_INACTIVE && $new_status === User::STATUS_ACTIVE) {
+                        User::sendEmailApprovAccount($model);
+                    }
+
                     if ($model->role !== $old_role)
                     {
                         $role = Yii::$app->authManager->getRole($model_role);
@@ -524,7 +534,6 @@ class UserController extends Controller
 			return $this->render('update', ['model' => $model,]);
 		}
 	}
-
 
 	/**
 	 * Updates profile an existing User model.

@@ -37,7 +37,12 @@ use dosamigos\ckeditor\CKEditor;
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-md-4">
+
+                    <div class="col-md-3">
+                        <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
+                    </div>
+
+                    <div class="col-md-3">
                         <?= $form->field($model, 'role')->widget(Select2::classname(), [
                             'data' => GlobalFunctions::getRolesList(),
                             'language' => Yii::$app->language,
@@ -48,10 +53,6 @@ use dosamigos\ckeditor\CKEditor;
                                 'allowClear' => true
                             ],
                         ]) ?>
-                    </div>
-
-                    <div class="col-md-4">
-                        <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
                     </div>
 
                     <div class="col-md-3">

@@ -7,6 +7,7 @@ use backend\models\business\GroupCustomer;
 use backend\models\business\Recharge;
 use backend\models\business\Sms;
 use backend\models\business\SmsGroup;
+use backend\models\settings\Setting;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
@@ -695,9 +696,42 @@ class User extends ActiveRecord implements IdentityInterface
         ];
     }
 
+    /**
+     * @return bool
+     */
     public static function isSuperAdmin() {
         return GlobalFunctions::getRol() === User::ROLE_SUPERADMIN;
     }
 
+    /**
+     * Sends confirmation email to user
+     * @param User $user user model to with email should be send
+     * @return bool whether the email was sent
+     */
+    public static function sendEmailApprovAccount($user)
+    {
+        $subject = Yii::t('backend','Cuenta verificada en {site_name}',['site_name'=> Setting::getName()]);
+
+        $mailer = Yii::$app->mail->compose(['html' => 'approv-account-html'], ['user' => $user])
+            ->setTo($user->email)
+            ->setFrom([Setting::getEmail() => Setting::getName()])
+            ->setSubject($subject);
+
+        try
+        {
+            if($mailer->send())
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        catch (\Swift_TransportException $e)
+        {
+            return false;
+        }
+    }
 
 }

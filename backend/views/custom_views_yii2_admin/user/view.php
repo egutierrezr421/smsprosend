@@ -90,10 +90,11 @@ $controllerId = $this->context->uniqueId . '/';
                                     'last_name',
                                     'username',
                                     'email:email',
-
-                                    'seniority:html',
-                                    'skills:html',
-                                    'personal_stuff:html',
+                                    'phone',
+                                    [
+                                        'attribute' => 'role',
+                                        'value' => GlobalFunctions::getRol($model->id)
+                                    ]
                                 ],
                             ]) ?>
                         </div>

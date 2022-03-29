@@ -2,6 +2,7 @@
 
 namespace backend\controllers;
 
+use backend\models\nomenclators\PaymentMethod;
 use backend\models\UtilsConstants;
 use common\models\User;
 use Yii;
@@ -88,8 +89,17 @@ class RechargeController extends Controller
                     $model->authorized_by = Yii::$app->user->id;
                 }
 
+                if(!isset($model->commission) || empty($model->commission)) {
+                    $model->commission = PaymentMethod::findOne($model->payment_method_id)->commission;
+                }
+
                 if($model->save())
                 {
+                    $new_status = (int) $model->status;
+                    if($new_status === UtilsConstants::RECHARGE_STATUS_PENDING) {
+                        Recharge::sendEmailAdmin($model->id);
+                    }
+
                     $transaction->commit();
 
                     GlobalFunctions::addFlashMessage('success',Yii::t('backend','Elemento creado correctamente'));
@@ -98,6 +108,7 @@ class RechargeController extends Controller
                 }
                 else
                 {
+                    print_r($model->getErrors());die();
                     GlobalFunctions::addFlashMessage('danger',Yii::t('backend','Error creando el elemento'));
                 }
             }
@@ -142,6 +153,10 @@ class RechargeController extends Controller
 
                     if($model->save())
                     {
+                        if($old_status === UtilsConstants::RECHARGE_STATUS_PENDING && $new_status === UtilsConstants::RECHARGE_STATUS_APPROVED) {
+                            Recharge::sendEmailApprov($model->user);
+                        }
+
                         $transaction->commit();
 
                         GlobalFunctions::addFlashMessage('success',Yii::t('backend','Elemento actualizado correctamente'));
