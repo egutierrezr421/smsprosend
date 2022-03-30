@@ -8,6 +8,7 @@ use kartik\switchinput\SwitchInput;
 use common\models\GlobalFunctions;
 use kartik\select2\Select2;
 use dosamigos\ckeditor\CKEditor;
+use kartik\number\NumberControl;
 
 /* @var $this yii\web\View */
 /* @var $model common\models\User */
@@ -54,6 +55,23 @@ use dosamigos\ckeditor\CKEditor;
                             ],
                         ]) ?>
                     </div>
+
+                    <?php if (GlobalFunctions::getRol($model->id) !== User::ROLE_SUPERADMIN): ?>
+                        <div class="col-md-2">
+                            <?=
+                            $form->field($model, "balance")->widget(NumberControl::classname(), [
+                                "maskedInputOptions" => [
+                                    "allowMinus" => false,
+                                    "groupSeparator" => ".",
+                                    "radixPoint" => ",",
+                                    "digits" => 2
+                                ],
+                                "displayOptions" => ["class" => "form-control kv-monospace"],
+                                "saveInputContainer" => ["class" => "kv-saved-cont"]
+                            ])
+                            ?>
+                        </div>
+                    <?php endif; ?>
 
                     <div class="col-md-3">
                         <?php

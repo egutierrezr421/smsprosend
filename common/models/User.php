@@ -8,6 +8,7 @@ use backend\models\business\Recharge;
 use backend\models\business\Sms;
 use backend\models\business\SmsGroup;
 use backend\models\settings\Setting;
+use backend\models\UtilsConstants;
 use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\Html;
@@ -129,6 +130,7 @@ class User extends ActiveRecord implements IdentityInterface
 				[['fileAvatar','avatar','switch_status','created_at', 'updated_at'], 'safe'],
 				[['fileAvatar'], 'file', 'extensions'=>'jpg, gif, png, svg, jpeg'],
                 ['balance','number'],
+                [['url_to_notify_delivery'],'url'],
 
             //format
 				[['username', 'password_hash', 'password_reset_token', 'email', 'avatar', 'role', 'position','url_to_notify_delivery'], 'string', 'max' => 255],
@@ -173,6 +175,7 @@ class User extends ActiveRecord implements IdentityInterface
             'personal_stuff' => Yii::t('common', 'Cosas personales'),
             'phone' => Yii::t('common', 'Teléfono'),
             'balance' => Yii::t('common', 'Balance'),
+            'url_to_notify_delivery' => Yii::t('common', 'Url para notificar mensajes'),
 		];
 	}
 
@@ -737,6 +740,42 @@ class User extends ActiveRecord implements IdentityInterface
         {
             return false;
         }
+    }
+
+    /**
+     * @param int $user_id
+     * @param int $action_type
+     * @param float $value
+     */
+    public static function updateBalance($user_id, $action_type, $value) {
+        $model = self::findOne($user_id);
+        $model->scenario = self::SCENARIO_UPDATE;
+
+        if ($model !== null && GlobalFunctions::getRol($user_id) !== User::ROLE_SUPERADMIN) {
+            if($action_type === UtilsConstants::UPDATE_NUMBER_PLUS) {
+                $model->balance += $value;
+            } elseif($action_type === UtilsConstants::UPDATE_NUMBER_MINUS) {
+                if ($value >= $model->balance) {
+                    $model->balance = 0;
+                } else {
+                    $model->balance -= $value;
+                }
+            } elseif($action_type === UtilsConstants::UPDATE_NUMBER_SET) {
+                $model->balance = $value;
+            }
+
+            $model->save(false);
+        }
+    }
+
+    public static function resendQvatelNotification($user_id, $sms) {
+        $user = self::findOne($user_id);
+        if($user !== null) {
+            if(isset($user->url_to_notify_delivery) && !empty($user->url_to_notify_delivery)) {
+
+            }
+        }
+
     }
 
 }

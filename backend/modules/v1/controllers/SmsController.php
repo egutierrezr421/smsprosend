@@ -221,9 +221,14 @@ class SmsController extends ApiController
                 'cost' => (isset($cost) && !empty($cost))? $cost : 0.05,
             ]);
 
-            if($model->validate() && $model->sendSms() && $model->save())
+            //if($model->validate() && $model->sendSms() && $model->save())
+            if($model->validate() && $model->save())
             {
                 $contOk++;
+
+                //descontar del balance del usuario
+                User::updateBalance($result_access['user_id'],UtilsConstants::UPDATE_NUMBER_MINUS, $model->cost);
+
             }
             else {
                 $sendOK=false;

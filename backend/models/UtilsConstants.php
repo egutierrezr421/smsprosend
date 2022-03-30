@@ -29,6 +29,10 @@ class UtilsConstants
     const PREFIX_TOKEN_APP = 'APP-';
     const PREFIX_TOKEN_CUSTOMER = 'CUS-';
 
+    const UPDATE_NUMBER_PLUS = 1;
+    const UPDATE_NUMBER_MINUS = 2;
+    const UPDATE_NUMBER_SET = 3;
+
     /**
      * @param $array
      * @param $value

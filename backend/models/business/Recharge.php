@@ -185,13 +185,37 @@ class Recharge extends BaseModel
         return $result?? 0;
     }
 
+    /**
+     * @param null $user_id
+     * @return float|int|mixed
+     */
     public static function getAvailableBalance($user_id = null) {
-        $mount_approv = self::getTotalAmountByStatus(UtilsConstants::RECHARGE_STATUS_APPROVED, $user_id);
-        $amount_consumed = self::getTotalConsumed($user_id);
 
-        return ($mount_approv > 0) ? $mount_approv - $amount_consumed : 0;
+        if($user_id !== null)
+        {
+            $model = User::find()->andWhere(['id' => $user_id])->one();
+
+            if($model !== null) {
+                return $model->balance?? 0;
+            }
+
+        } else {
+            if(!User::isSuperAdmin()) {
+                $model = User::find()->andWhere(['id' => Yii::$app->user->id])->one();
+
+                if($model !== null) {
+                    return $model->balance?? 0;
+                }
+            }
+            else
+            {
+                $sum = User::find()->sum('balance');
+                return $sum?? 0;
+            }
+        }
+
+        return 0;
     }
-
 
     /**
      * Sends confirmation email to user

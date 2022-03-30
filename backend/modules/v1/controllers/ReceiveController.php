@@ -2,11 +2,14 @@
 
 namespace backend\modules\v1\controllers;
 
+use backend\components\CurlHelper;
 use backend\models\business\Sms;
 use backend\models\UtilsConstants;
 use backend\modules\v1\ApiUtilsFunctions;
 use yii\helpers\ArrayHelper;
 use Yii;
+use backend\models\settings\Setting;
+use common\models\User;
 
 /**
  * ReceiveController for the `v1` module
@@ -46,10 +49,28 @@ class ReceiveController extends ApiController
                 }
 
                 $model->save(false);
+
+                $user = User::findOne($model->user_id);
+                if($user !== null) {
+                    if(isset($user->url_to_notify_delivery) && !empty($user->url_to_notify_delivery)) {
+                        $params = [];
+                        $params['id_sms'] = $model->id;
+                        $params['id_status_id'] = $model->status;
+                        $params['id_status_label'] = $status;
+
+                        $response = CurlHelper::put($user->url_to_notify_delivery, $params);
+
+                        //return $response;
+                    }
+                }
             }
         }
 
         return true;
+    }
+
+    public function actionTestResend() {
+        return  $this->getRequestParamsAsArray();
     }
 }
 

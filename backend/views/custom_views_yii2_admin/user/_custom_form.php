@@ -30,6 +30,10 @@ use common\models\User;
         <div class="col-md-5">
             <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
         </div>
+        <div class="col-md-7">
+            <?= $form->field($model, 'url_to_notify_delivery')->textInput(['maxlength' => true]) ?>
+        </div>
+
     </div>
 
     <?php

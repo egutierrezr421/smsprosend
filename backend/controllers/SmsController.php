@@ -100,6 +100,9 @@ class SmsController extends Controller
 
                 if($model->sendSms() && $model->save())
                 {
+                    //descontar del balance del usuario
+                    User::updateBalance($model->user_id,UtilsConstants::UPDATE_NUMBER_MINUS,$model->cost);
+
                     $transaction->commit();
 
                     GlobalFunctions::addFlashMessage('success',Yii::t('backend','Sms enviado correctamente'));
