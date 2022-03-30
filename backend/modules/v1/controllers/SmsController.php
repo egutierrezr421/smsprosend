@@ -221,8 +221,7 @@ class SmsController extends ApiController
                 'cost' => (isset($cost) && !empty($cost))? $cost : 0.05,
             ]);
 
-            //if($model->validate() && $model->sendSms() && $model->save())
-            if($model->validate() && $model->save())
+            if($model->validate() && $model->sendSms() && $model->save())
             {
                 $contOk++;
 
