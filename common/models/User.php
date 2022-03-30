@@ -120,8 +120,7 @@ class User extends ActiveRecord implements IdentityInterface
 			//required
 				[['username', 'email', 'auth_key', 'auth_key_test', 'name', 'last_name','status','switch_status','password_hash','role'], 'required', 'on' => self::SCENARIO_CREATE],
 				[['username', 'email', 'auth_key', 'auth_key_test', 'name', 'last_name','status','switch_status','role'], 'required', 'on' => self::SCENARIO_UPDATE],
-				
-				[$scenarios[self::SCENARIO_SING_UP], 'required', 'on' => self::SCENARIO_SING_UP],
+				[['username', 'email', 'auth_key', 'name', 'last_name','password_hash','phone'], 'required', 'on' => self::SCENARIO_SING_UP],
 			//typed
 				['username', 'trim'],
                 ['username', 'match' , 'pattern'=> $customValidator->getPatternUsername(), 'message'=> $customValidator->getMessageUsername()],
@@ -143,6 +142,7 @@ class User extends ActiveRecord implements IdentityInterface
 				[['password_reset_token'], 'unique'],
 			//default value
 				['status', 'default', 'value' => self::STATUS_ACTIVE],
+				['balance', 'default', 'value' => 0],
 				['status', 'in', 'range' => [self::STATUS_ACTIVE, self::STATUS_INACTIVE]],
 		];
 	}
