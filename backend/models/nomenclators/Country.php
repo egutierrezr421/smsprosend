@@ -263,4 +263,32 @@ class Country extends BaseModel
         return $result;
     }
 
+    /**
+     * Returns a mapped array for using on Select widget
+     *
+     * @return array
+     */
+    public static function getSelectReduced()
+    {
+        $models = self::find()
+            ->select(['country.id', 'country_lang.name'])
+            ->innerJoin('country_lang', 'country_lang.country_id = country.id AND country_lang.language=\''.Yii::$app->language.'\'')
+            ->where(['status' => self::STATUS_ACTIVE])
+            ->asArray()
+            ->all();
+
+
+        $array_map = [];
+
+        if(count($models)>0)
+        {
+            foreach ($models AS $index => $model)
+            {
+                $array_map[$model['id']] = $model['name'];
+            }
+        }
+
+        return $array_map;
+    }
+
 }

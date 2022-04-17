@@ -33,6 +33,14 @@ class UtilsConstants
     const UPDATE_NUMBER_MINUS = 2;
     const UPDATE_NUMBER_SET = 3;
 
+    const SERVICES_CODE_SMS = '01';
+    const SERVICES_CODE_RECHARGE_MOBILE = '02';
+    const SERVICES_CODE_RECHARGE_NAUTA = '03';
+    const SERVICES_CODE_CALL = '04';
+    const SERVICES_CODE_VIDEOCALL = '05';
+    const SERVICES_CODE_VIDEOCALL_3D = '06';
+    const SERVICES_CODE_2FA = '07';
+
     /**
      * @param $array
      * @param $value
@@ -102,6 +110,28 @@ class UtilsConstants
         $array[self::TYPE_ACCESS_API_CUSTOMER_BALANCE] = Yii::t('backend', 'Descuento de balance');
         $array[self::TYPE_ACCESS_API_CUSTOMER_LIMIT_SMS] = Yii::t('backend', 'Mensajes limitados');
 
+
+        return self::getValueOfArray($array,$value,$optional_value);
+    }
+
+    /**
+     * Servicios code
+     *
+     * @param null|integer $value
+     * @param boolean $optional_value Poner este valor en true cuando se quiere mostrar en los index el valor específico pero este es opcional, evita dar error y devuelve null
+     * @return array|mixed
+     */
+    public static function getServicesCodeName($value = null, $optional_value = false)
+    {
+        $array = [];
+
+        $array[self::SERVICES_CODE_SMS] = Yii::t('backend', 'Mensajes');
+        $array[self::SERVICES_CODE_RECHARGE_MOBILE] = Yii::t('backend', 'Recarga móvil');
+        $array[self::SERVICES_CODE_RECHARGE_NAUTA] = Yii::t('backend', 'Recarga nauta');
+        $array[self::SERVICES_CODE_CALL] = Yii::t('backend', 'Llamadas');
+        $array[self::SERVICES_CODE_VIDEOCALL] = Yii::t('backend', 'Videollamadas');
+        $array[self::SERVICES_CODE_VIDEOCALL_3D] = Yii::t('backend', 'Videollamadas 3D');
+        $array[self::SERVICES_CODE_2FA] = Yii::t('backend', '2FA');
 
         return self::getValueOfArray($array,$value,$optional_value);
     }

@@ -6,7 +6,7 @@ class ConfigServerConstants
 {
     //Local URL
     const BASE_URL_BACKEND_LOCAL = 'http://smsprosend.local'; //Backend
-    const BASE_URL_FRONTEND_LOCAL = 'http://frontend.yii2advanced.local'; //Frontend
+    const BASE_URL_FRONTEND_LOCAL = 'http://frontend_smsprosend.local'; //Frontend
 
     //Real Domain URL
     const BASE_URL_BACKEND = 'https://kubacel.com'; //Backend

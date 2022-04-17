@@ -105,10 +105,10 @@ return [
                     'class' => 'yii\i18n\DbMessageSource',
                     'forceTranslation' => true
                 ],
-               // 'frontend*' => [
-               //     'class' => 'yii\i18n\DbMessageSource',
-               //     'forceTranslation' => true
-               // ],
+                'frontend*' => [
+                    'class' => 'yii\i18n\DbMessageSource',
+                    'forceTranslation' => true
+                ],
 	        ],
         ],
         'formatter' => [

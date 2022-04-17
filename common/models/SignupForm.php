@@ -82,8 +82,8 @@ class SignupForm extends Model
 
         if($user->save())
         {
-            $this->sendEmail($user);
-            $this->sendEmailAdmin($user);
+            //$this->sendEmail($user);
+            //$this->sendEmailAdmin($user);
             $role = \Yii::$app->authManager->getRole($role_selected);
             \Yii::$app->authManager->revokeAll($user->id);
             \Yii::$app->authManager->assign($role, $user->id);

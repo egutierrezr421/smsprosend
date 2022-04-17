@@ -1168,4 +1168,30 @@ class GlobalFunctions
         return $html;
     }
     /* END CUSTOM GROUP PANEL */
+
+    /**
+     * @param string $title
+     * @param string $modal_large //'modal-sm', '', 'modal-lg'
+     * @return string
+     */
+    public static function showModalHtmlContent($title='',$modal_large = '')
+    {
+        $html = '
+            <div id="modal" class="fade modal" role="dialog">
+                <div class="modal-dialog '.$modal_large.'">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                            <h4>'.$title.'</h4>
+                        </div>
+                        <div class="modal-body">
+                            <div id="modalContent"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        ';
+
+        return $html;
+    }
 }

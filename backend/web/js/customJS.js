@@ -39,4 +39,10 @@ $(function() {
         $(this).attr('data-original-title',label_copied).tooltip('show');
     });
 
+    $('.modalImage').click(function (e) {
+        e.preventDefault();
+        var img = '<div class="text-center img-bordered"><img style="width: 85%;" src="'+$(this).attr('src')+'"></div>';
+        $('#modal').modal('show').find('#modalContent').html(img);
+    });
+
 });

@@ -5,6 +5,7 @@ use mdm\admin\components\Helper;
 use backend\models\settings\Setting;
 use common\models\User;
 use backend\widgets\CustomMenu;
+use backend\models\settings\Landing;
 
 ?>
 
@@ -144,6 +145,18 @@ use backend\widgets\CustomMenu;
                         'label' => Yii::t("backend", "Métodos de pago"),
                         'icon' => 'credit-card',
                         'url' => ['/payment-method/index'],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend", "Ajustes de frontend"),
+                        'icon' => 'cog',
+                        'url' => ['/landing/update', 'id' => Landing::getIdLanding()],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend", "Imágenes de carrusel"),
+                        'icon' => 'image',
+                        'url' => ['/carrousel/index'],
                     ],
 
                     [
