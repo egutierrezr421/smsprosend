@@ -1,0 +1,496 @@
+:root {
+    --kubacel-blue: #4159F5;
+    --kubacel-orange: #FCB814;
+    --kubacel-black: #071E31;
+    --kubacel-white: #F9F9F9;
+    --kubacel-green: #39A633;
+    --kubacel-gray: #F8F9FA;
+}
+
+.color-blue-kubacel {
+    color: var(--kubacel-blue) !important;
+}
+
+.color-orange-kubacel {
+    color: var(--kubacel-orange) !important;
+}
+
+.color-black-kubacel {
+    color: var(--kubacel-black) !important;
+}
+
+.color-white-kubacel {
+    color: var(--kubacel-white) !important;
+}
+
+.color-green-kubacel {
+    color: var(--kubacel-green) !important;
+}
+
+.color-gray-kubacel {
+    color: var(--kubacel-gray) !important;
+}
+
+.bg-gray-kubacel {
+    background-color: var(--kubacel-gray) !important;
+}
+
+.bg-blue-kubacel {
+    background-color: var(--kubacel-blue) !important;
+}
+
+.bg-black-kubacel {
+    background-color: var(--kubacel-black) !important;
+}
+
+html, body {
+    scroll-behavior: smooth;
+}
+
+.form-calculator {
+    background-color: white;
+    border-radius: 10px 10px 10px 10px !important;
+    -moz-border-radius: 10px 10px 10px 10px !important;
+    -webkit-border-radius: 10px 10px 10px 10px !important;
+    -webkit-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    -moz-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+}
+
+.form-control, .form-select {
+    border-radius: 10px 10px 10px 10px !important;
+    -moz-border-radius: 10px 10px 10px 10px !important;
+    -webkit-border-radius: 10px 10px 10px 10px !important;
+}
+
+.img-menu {
+    margin-left: 45%;
+    width: 30px;
+    height: 30px;
+}
+
+.icon-login {
+  max-width: 30px;
+  max-height: 40px;
+  margin-right: 15px;
+}
+
+.header-logo {
+    max-width: 200px;
+    max-height: 50px;
+}
+
+.items-header-nav {
+    display: flex;
+    flex-direction: row;
+    text-align: right;
+    align-items: end;
+    align-content: end;
+    right: 3px;
+    justify-content: right;
+}
+
+.items-header-nav a {
+    color: grey;
+}
+
+.items-header-nav a:hover {
+    color: dimgrey;
+}
+
+.hero-background {
+    background-image: url("/images/palma-hero.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    min-height: 285px;
+}
+
+.hero-image {
+    width: 45%;
+    margin-left: 12%;
+    margin-top: 6%;
+}
+
+.hero-squares {
+    width: 200%;
+    height: 34px;
+    margin-left: -50px;
+}
+
+.text-hero {
+    text-align: justify;
+}
+
+
+.blue-separator {
+    background-image: url("/images/blue-separator.png");
+    background-position: 200% 0;
+    height: 90px;
+    background-repeat: no-repeat;
+    background-size: 80%;
+}
+
+.offer-image {
+    width: 100%;
+    margin: 15% 15% 0 0;
+}
+
+.white-square-image {
+    width: 100%;
+    height: auto;
+    margin: 12% 0 0 12%;
+}
+
+.carousel-indicators [data-bs-target] {
+    width: 15px !important;
+    height: 15px !important;
+    border: 2px solid white !important;
+    border-radius: 50% !important;
+    background-color: inherit !important;
+}
+
+.carousel-indicators [data-bs-target].active{
+    background-color: white !important;
+}
+
+.blue-separator-left {
+    background-image: url("/images/blue-separator-left.png");
+    background-position: -10% 100%;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: 50%;
+}
+
+.our-services-image {
+    width: 20%;
+    float: right;
+    margin-right: 10%;
+    margin-top: 5%;
+}
+
+.service-image {
+    max-width: 50px;
+    height: 50px;
+}
+
+.row-services {
+    width: 100%;
+}
+
+.title-kubacel-services {
+    margin-bottom: 20px !important;
+    color: var(--kubacel-black) !important;
+}
+
+.btn {
+    border-radius: 10px 10px 10px 10px !important;
+    -moz-border-radius: 10px 10px 10px 10px !important;
+    -webkit-border-radius: 10px 10px 10px 10px !important;
+}
+
+.card {
+    z-index: 10;
+    border-radius: 10px 10px 10px 10px !important;
+    -moz-border-radius: 10px 10px 10px 10px !important;
+    -webkit-border-radius: 10px 10px 10px 10px !important;
+    padding: 4px;
+    -webkit-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    -moz-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+}
+
+.card:hover {
+    background-image: url("/images/border-card.png");
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+}
+
+.orange-separator-left {
+    background-image: url("/images/orange-separator.png");
+    background-position: 100% -15%;
+    background-repeat: no-repeat;
+    background-size: 50%;
+}
+
+.orange-image {
+    width: 35%;
+    float: right;
+    top: -100px;
+    right: -13%;
+    z-index: 5;
+    position: relative;
+}
+
+.about-label-image {
+    width: 25%;
+}
+
+.about-image {
+    width: 100%;
+    position: relative;
+    top: -25%;
+}
+
+.section-about {
+   position: relative;
+   top: -120px;
+   font-size: 1.1em;
+   color: lightslategray;
+}
+
+.section-app {
+    position: relative;
+    top: -120px;
+    font-size: 1.1em;
+    color: lightslategray;
+}
+
+.our-app-image {
+    width:25%;
+    float: right;
+    position: relative;
+    top: 65px;
+    right: 5%;
+}
+
+.green-separator-left {
+    width: 50%;
+    position: relative;
+    top: -50px;
+    left: -20%;
+}
+
+.image-contact {
+    width: 50%;
+    margin-top: 5%;
+}
+
+.social-icon-footer {
+    width: 35px;
+    height: 35px;
+    margin-top: 15px;
+}
+
+.items-footer-social-icon {
+    display: flex;
+    flex-direction: row;
+    gap: 10%;
+}
+
+.line {
+    display: none;
+}
+
+.link-footer {
+    justify-content: left;
+}
+
+.footer-border-section1 {
+    border-right: 3px solid white;
+}
+
+.form-control-footer-kubacel {
+    background-color: inherit !important;
+    color: gray !important;
+}
+
+.footer-separator {
+    width: 50%;
+    position: relative;
+    top: -70px;
+    left: -12%;
+}
+
+.top-separator-page {
+    width: 40%;
+    position: relative;
+    right: -45%;
+    top: -40px;
+}
+
+.bottom-separator-page {
+    width: 40%;
+    position: relative;
+}
+
+.content-image {
+    width: 90%;
+}
+
+.page-section {
+    font-size: 1.2em;
+    padding-left: 10%;
+}
+
+.img-carrusel {
+    max-height: 350px !important;
+}
+
+
+@media(max-width:767px) {
+    .items-header-nav {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .hero-background {
+        min-height: 150px;
+    }
+
+    .hero-squares {
+        width: 100%;
+        height: 34px;
+        margin: 25px 279px 25px auto;
+    }
+
+    .hero-image {
+        width: 45%;
+        margin-left: -28%;
+        margin-top: 7%;
+    }
+
+    .blue-separator {
+        background-position: 250% 0;
+        height: 25px;
+        background-size: 80%;
+    }
+
+    .offer-image {
+        width: 150%;
+        margin: 15% 15% 0 0;
+    }
+
+    .white-square-image {
+        width: 750px;
+        height: 55px;
+        padding: 15% 0 0 30%;
+    }
+
+    .blue-separator-left {
+        background-position: -60% -10%;
+        height: 7%;
+        background-size: 75%;
+    }
+
+    .our-services-image {
+        width: 40%;
+        margin-right: 5%;
+        margin-top: 12%;
+    }
+
+    .service-image {
+        max-width: 40px;
+        height: 40px;
+    }
+
+    .title-kubacel-services {
+        font-size: 0.8em !important;
+    }
+
+    .row-services {
+        width: auto;
+    }
+
+    .orange-image {
+        width: 100%;
+        float: right;
+        top: -125px;
+        right: -125px;
+        z-index: 5;
+        position: relative;
+    }
+
+    .about-label-image {
+        width: 50%;
+    }
+
+    .about-image {
+        width: 100%;
+        position: static;
+        top: 0;
+    }
+
+    .section-about {
+        position: relative;
+        top: -200px;
+    }
+
+    .section-app {
+        position: relative;
+        top: -200px;
+    }
+
+    .green-separator-left {
+        width: 70%;
+        position: relative;
+        top: 25px;
+        left: -30%;
+    }
+
+    .our-app-image {
+        width: 45%;
+        float: right;
+        position: relative;
+        top: -35px;
+        right: 5%;
+    }
+
+    .section-our-service {
+        position: relative;
+        top: -90px;
+        font-size: 1.1em;
+        color: lightslategray;
+    }
+
+    .image-contact {
+        width: 80%;
+        margin-top: 5%;
+    }
+
+    .footer-border-section1 {
+        display: flex;
+        border: 0;
+    }
+
+    .items-footer-social-icon {
+        justify-content: center;
+    }
+
+    .line {
+        display: block;
+        width: 100% !important;
+        height: 3px !important;
+        color: white !important;
+        margin: 5% !important;
+        opacity: 1;
+    }
+
+    .link-footer {
+        justify-content: center;
+    }
+
+    .footer-separator {
+        width: 85%;
+        position: relative;
+        top: -30px;
+        left: -25%;
+    }
+
+    .top-separator-page {
+        width: 100%;
+        position: relative;
+        right: -45%;
+        top: -65px;
+    }
+
+    .bottom-separator-page {
+        width: 100%;
+        position: relative;
+        left: -25%;
+        top: 25px;
+    }
+
+    .content-image {
+        width: 80%;
+    }
+}
