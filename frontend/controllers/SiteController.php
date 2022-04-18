@@ -298,7 +298,7 @@ class SiteController extends Controller
         $type = (int) $type;
 
         if($type === 1) {
-            $title = 'Recarga movil';
+            $title = 'Recarga móvil';
             $top_separator_url = '/images/separator-pages/top-blue.png';
             $bottom_separator_url = '/images/separator-pages/bottom-green.png';
             $content_image_url = '/images/content-pages/recharge-movile.png';

@@ -12,7 +12,7 @@ use yii\helpers\Url;
             <a class="text-decoration-none" href="<?= Url::to(['/site/page-service','type' => 1]) ?>">
                 <div class="card text-center">
                     <div class="card-body">
-                        <h5 class="card-title title-kubacel-services">Recarga movil</h5>
+                        <h5 class="card-title title-kubacel-services">Recarga móvil</h5>
                         <img class="service-image" src="/images/service-icon-phone.png">
                     </div>
                 </div>
