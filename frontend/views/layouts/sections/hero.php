@@ -13,7 +13,7 @@ use yii\helpers\Url;
         <div class="col-md-8 text-center text-lg-start">
             <div class="row hero-background">
                 <div class="col-12">
-                    <img class="hero-image" src="<?= Yii::$app->assetManager->getActualAssetUrl() ?>/images/bienvenido-hero.png">
+                    <img class="hero-image" src="<?= Yii::$app->assetManager->getPublishedUrl('@web') ?>/images/bienvenido-hero.png">
                 </div>
             </div>
             <div class="row">
