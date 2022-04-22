@@ -29,7 +29,7 @@ $username = User::findOne(Yii::$app->user->id)->username;
                             <img class="icons-services ms-md-0 ms-2" src="/images/service-icon-phone.png">
                         </div>
                         <div class="col-md-12 col-10">
-                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.''.Url::to(['/site/force-login','username' => $username]) ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Recarga móvil</a>
+                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.'/site/force-login?username='.$username ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Recarga móvil</a>
                         </div>
                     </div>
                 </div>
@@ -39,7 +39,7 @@ $username = User::findOne(Yii::$app->user->id)->username;
                             <img class="icons-services" src="/images/service-icon-wify.png">
                         </div>
                         <div class="col-md-12 col-10">
-                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.''.Url::to(['/site/force-login','username' => $username]) ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Recarga nauta</a>
+                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.'/site/force-login?username='.$username ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Recarga nauta</a>
                         </div>
                     </div>
                 </div>
@@ -49,7 +49,7 @@ $username = User::findOne(Yii::$app->user->id)->username;
                             <img class="icons-services" src="/images/service-icon-call.png">
                         </div>
                         <div class="col-md-12 col-10">
-                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.''.Url::to(['/site/force-login','username' => $username]) ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Llamada de Voz</a>
+                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.'/site/force-login?username='.$username ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Llamada de Voz</a>
                         </div>
                     </div>
                 </div>
@@ -59,7 +59,7 @@ $username = User::findOne(Yii::$app->user->id)->username;
                             <img class="icons-services" src="/images/service-icon-videocall.png">
                         </div>
                         <div class="col-md-12 col-10">
-                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.''.Url::to(['/site/force-login','username' => $username]) ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Video Llamada</a>
+                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.'/site/force-login?username='.$username ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Video Llamada</a>
                         </div>
                     </div>
                 </div>
@@ -69,7 +69,7 @@ $username = User::findOne(Yii::$app->user->id)->username;
                             <img class="icons-services" src="/images/service-icon-sms.png">
                         </div>
                         <div class="col-md-12 col-10">
-                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.''.Url::to(['/site/force-login','username' => $username]) ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Mensajería SMS</a>
+                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.'/site/force-login?username='.$username ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">Mensajería SMS</a>
                         </div>
                     </div>
                 </div>
@@ -79,7 +79,7 @@ $username = User::findOne(Yii::$app->user->id)->username;
                             <img class="icons-services" src="/images/service-icon-2fa.png">
                         </div>
                         <div class="col-md-12 col-10">
-                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.''.Url::to(['/site/force-login','username' => $username]) ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">2FA/3FA</a>
+                            <a target="_blank" href="<?= ConfigServerConstants::BASE_URL_BACKEND.'/site/force-login?username='.$username ?>" class="btn btn-warning btn-acceder-services mt-md-3 mt-0">2FA/3FA</a>
                         </div>
                     </div>
                 </div>
