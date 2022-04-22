@@ -24,6 +24,7 @@ return [
     'components' => [
         'request' => [
             'csrfParam' => '_csrf-frontend',
+            'baseUrl' => '',
         ],
         'user' => [
             'identityClass' => 'common\models\User',
@@ -47,10 +48,9 @@ return [
             'errorAction' => 'site/error',
         ],
         'urlManager' => [
+            'baseUrl' => ConfigServerConstants::BASE_URL_FRONTEND,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
-            'rules' => [
-            ],
         ],
         'urlManagerBackend' => [
             'class' => 'yii\web\urlManager',
