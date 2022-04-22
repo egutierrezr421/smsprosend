@@ -14,7 +14,7 @@ use yii\helpers\Url;
 
 
 <!-- Section about -->
-<section id="app-section" class="container section-app">
+<section id="app-section" class="container mb-5">
     <img class="green-separator-left" src="/images/green-separator.png">
     <img class="our-app-image" src="/images/know-app.png">
     <div class="row w-100">

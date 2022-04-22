@@ -37,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            <hr class="line">
+            <hr class="d-block d-md-none line">
             <div class="col-1 d-md-block d-none">
                 &nbsp;
             </div>

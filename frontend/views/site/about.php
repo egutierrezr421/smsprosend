@@ -4,7 +4,7 @@
 ?>
 
 <!-- Page about -->
-<section class="container mt-5 mb-5 pt-5 pb-5">
+<section class="container mb-5 pt-5 pb-5">
     <img class="about-label-image" src="/images/about-us.png">
     <div class="row">
         <div class="col-12 col-md-6 order-2 order-md-1 pr-2">

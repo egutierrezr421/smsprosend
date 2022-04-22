@@ -19,11 +19,11 @@ $this->title = $title;
     <img class="top-separator-page" src="<?= $top_separator_url ?>">
     <div class="row w-100">
         <div class="col-12 col-md-4 text-md-start text-center">
-            <img class="content-image mb-2" src="<?= $content_image_url ?>">
-            <br>
+            <img class="content-image" src="<?= $content_image_url ?>">
+
             <?= $text ?>
-            <br>
-            <a href="<?= Url::to(['/site/login']) ?>" class="btn btn-warning mt-5 mb-5"><?= $btn_label ?></a>
+
+            <a href="<?= Url::to(['/site/login']) ?>" class="btn btn-warning mt-1 mt-md-5 mb-1 mb-md-5"><?= $btn_label ?></a>
         </div>
         <div class="col-1 d-md-block d-none">
             &nbsp;

@@ -6,7 +6,7 @@ use yii\helpers\Url;
 ?>
 
 <!-- Section about -->
-<section id="about-section" class="container section-about">
+<section id="about-section" class="container">
     <img class="about-label-image" src="/images/about-us.png">
     <div class="row">
         <div class="col-12 col-md-6 order-2 order-md-1 pr-2">
@@ -18,7 +18,6 @@ use yii\helpers\Url;
         <div class="col-12 col-md-6 order-1 order-md-2">
            <img class="about-image" src="/images/image-about.png">
         </div>
-
     </div>
 </section>
 <!-- Section about -->

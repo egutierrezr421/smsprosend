@@ -9,8 +9,8 @@ use yii\helpers\Url;
 
 <!-- Section Hero -->
 <section class="container">
-    <div class="row align-items-center g-lg-5 py-5">
-        <div class="col-md-8 text-center text-lg-start">
+    <div class="row align-items-center">
+        <div class="col-md-8 text-center text-md-start">
             <div class="row hero-background">
                 <div class="col-12">
                     <img class="hero-image" src="/images/bienvenido-hero.png">
@@ -26,12 +26,11 @@ use yii\helpers\Url;
                 <div class="d-none d-md-block col-1">
                     &nbsp;
                 </div>
-                <div class="col-12 col-md-3">
-                   <img src="/images/cuadros-grises.png" class="hero-squares">
+                <div class="col-12 col-md-3 hero-square-gray mt-3 mt-md-0">
                 </div>
             </div>
         </div>
-        <div class="col-md-4 mx-auto">
+        <div class="col-md-4 mt-3 mt-md-0">
             <form id="form-calculator" class="needs-validation p-4 border text-center form-calculator">
                 <h3 class="fw-bold mb-4">Calculadora</h3>
 

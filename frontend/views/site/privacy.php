@@ -8,7 +8,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <!-- Section privacy -->
-<section id="privacy" class="container mt-5 mb-5 pt-5 pb-5">
+<section id="privacy" class="container mb-5 pt-5 pb-5">
     <div class="row">
         <div class="col-12">
             <?= $information ?>

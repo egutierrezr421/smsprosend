@@ -1,13 +1,16 @@
 <?php
+
 use yii\helpers\Url;
+
 ?>
 
-<div class="blue-separator-left mb-3 mb-md-5">
-    <img class="our-services-image" src="/images/our-services.png">
-</div>
+<div class="blue-separator-left"></div>
 <!-- Section Our Services -->
-<section id="services-section" class="container section-our-service">
+<section id="services-section" class="container-fluid orange-separator-right mb-5">
     <div class="row row-services">
+        <div class="col-12 mb-5">
+            <img class="our-services-image" src="/images/our-services.png">
+        </div>
         <div class="col-6 col-md-3 mb-4">
             <a class="text-decoration-none" href="<?= Url::to(['/site/page-service','type' => 1]) ?>">
                 <div class="card text-center">
@@ -88,10 +91,6 @@ use yii\helpers\Url;
                 </div>
             </a>
         </div>
-        <div>
-            <img src="/images/orange-separator.png" class="orange-image">
-        </div>
-
     </div>
 </section>
 <!-- Section Our Services -->

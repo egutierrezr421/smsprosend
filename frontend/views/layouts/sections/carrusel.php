@@ -12,14 +12,13 @@ use backend\models\settings\Carrousel;
 <div class="blue-separator">
 </div>
 <!-- Section Carrusel -->
-<section id="offers-section"class="container-fluid bg-blue-kubacel">
+<section id="offers-section" class="container-fluid bg-blue-kubacel">
     <div class="container">
-        <div class="row mb-5">
+        <div class="row mb-5 carrusel-top-background">
             <div class="col-6 col-md-4">
                 <img class="offer-image" src="/images/ofertas.png">
             </div>
             <div class="col-6 col-md-8">
-                <img class="white-square-image" src="/images/cuadros-blancos.png">
             </div>
         </div>
 

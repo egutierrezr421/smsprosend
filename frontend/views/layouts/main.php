@@ -28,7 +28,7 @@ $landing = Landing::find()->one();
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
-<?= Custom_Alert::widget()  ?>
+<?= Custom_Alert::widget() ?>
 
 <?php if($action_id == 'login' || $action_id == 'signup' || $action_id == 'request-password-reset' || $action_id == 'reset-password') { ?>
     <?= $content ?>
@@ -48,13 +48,11 @@ $landing = Landing::find()->one();
         echo $content;
     }
     else {
-
         echo $this->render('sections/hero', ['landing' => $landing]);
         echo $this->render('sections/carrusel', ['landing' => $landing]);
         echo $this->render('sections/our-services', ['landing' => $landing]);
         echo $this->render('sections/about', ['landing' => $landing]);
         echo $this->render('sections/our-app', ['landing' => $landing]);
-        echo $content;
     }
     ?>
     </div>
