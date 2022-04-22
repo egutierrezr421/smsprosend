@@ -5,6 +5,8 @@
 use backend\models\nomenclators\Country;
 use backend\models\nomenclators\Service;
 use yii\helpers\Url;
+
+$baseUrl= Yii::getAlias('@frontend/web');
 ?>
 
 <!-- Section Hero -->
@@ -13,7 +15,7 @@ use yii\helpers\Url;
         <div class="col-md-8 text-center text-lg-start">
             <div class="row hero-background">
                 <div class="col-12">
-                    <img class="hero-image" src="/images/bienvenido-hero.png">
+                    <img class="hero-image" src="<?= $baseUrl ?>/images/bienvenido-hero.png">
                 </div>
             </div>
             <div class="row">
