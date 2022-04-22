@@ -26,7 +26,7 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['logout', 'index', 'error','change_lang', "ckeditorupload",'phpinfo', 'resource', 'docs'],
+                        'actions' => ['logout', 'index', 'error','change_lang', "ckeditorupload",'phpinfo', 'resource', 'docs', 'force-login'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
