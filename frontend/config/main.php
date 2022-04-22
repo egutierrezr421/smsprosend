@@ -51,9 +51,6 @@ return [
             'showScriptName' => false,
             'enablePrettyUrl' => true,
             'enableStrictParsing' => false,
-            'rules' => [
-                'images' => '/smsprosend/frontend/web/images/'
-            ]
         ],
         'urlManagerBackend' => [
             'class' => 'yii\web\urlManager',
