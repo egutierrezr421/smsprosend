@@ -13,7 +13,7 @@ use yii\helpers\Url;
         <div class="col-md-8 text-center text-lg-start">
             <div class="row hero-background">
                 <div class="col-12">
-                    <img class="hero-image" src="<?= Yii::getAlias('@kubacel-images') ?>/images/bienvenido-hero.png">
+                    <img class="hero-image" src="/images/bienvenido-hero.png">
                 </div>
             </div>
             <div class="row">
@@ -27,7 +27,7 @@ use yii\helpers\Url;
                     &nbsp;
                 </div>
                 <div class="col-12 col-md-3">
-                   <img src="<?= Yii::getAlias('@kubacel-images') ?>/images/cuadros-grises.png" class="hero-squares">
+                   <img src="/images/cuadros-grises.png" class="hero-squares">
                 </div>
             </div>
         </div>
