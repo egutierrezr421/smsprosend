@@ -54,7 +54,7 @@ return [
         ],
         'urlManagerBackend' => [
             'class' => 'yii\web\urlManager',
-            'baseUrl' => ConfigServerConstants::BASE_URL_BACKEND_LOCAL,
+            'baseUrl' => ConfigServerConstants::BASE_URL_BACKEND,
             'enablePrettyUrl' => true,
             'showScriptName' => false,
         ],
