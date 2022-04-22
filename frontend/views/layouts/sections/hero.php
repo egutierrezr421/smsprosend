@@ -14,7 +14,7 @@ Yii::setAlias('@kubacel-images', \common\models\ConfigServerConstants::BASE_URL_
         <div class="col-md-8 text-center text-lg-start">
             <div class="row hero-background">
                 <div class="col-12">
-                    <img class="hero-image" src="<?= Url::to(['@kubacel-images']) ?>/images/bienvenido-hero.png">
+                    <img class="hero-image" src="<?= Yii::getAlias('@kubacel-images') ?>/images/bienvenido-hero.png">
                 </div>
             </div>
             <div class="row">
