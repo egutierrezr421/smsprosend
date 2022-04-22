@@ -5,6 +5,7 @@
 use backend\models\nomenclators\Country;
 use backend\models\nomenclators\Service;
 use yii\helpers\Url;
+Yii::setAlias('@kubacel-images', \common\models\ConfigServerConstants::BASE_URL_FRONTEND.'/smsprosend/frontend/web');
 ?>
 
 <!-- Section Hero -->
@@ -13,7 +14,7 @@ use yii\helpers\Url;
         <div class="col-md-8 text-center text-lg-start">
             <div class="row hero-background">
                 <div class="col-12">
-                    <img class="hero-image" src="<?= Yii::$app->assetManager->getPublishedUrl('@web') ?>/images/bienvenido-hero.png">
+                    <img class="hero-image" src="<?= Url::to(['@kubacel-images']) ?>/images/bienvenido-hero.png">
                 </div>
             </div>
             <div class="row">
