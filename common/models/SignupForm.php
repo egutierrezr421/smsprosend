@@ -26,18 +26,16 @@ class SignupForm extends Model
     {
         return [
             ['username', 'trim'],
-            [['username','name','lastname'], 'required'],
+            [['username','name','lastname','email','phone','password'], 'required'],
             ['username', 'unique', 'targetClass' => '\common\models\User'],
             ['username', 'string', 'min' => 2, 'max' => 255],
             [['name','lastname','phone'], 'string', 'max' => 50],
 
             ['email', 'trim'],
-            ['email', 'required'],
             ['email', 'email'],
             ['email', 'string', 'max' => 255],
             ['email', 'unique', 'targetClass' => '\common\models\User'],
 
-            ['password', 'required'],
             ['password', 'string', 'min' => 4],
         ];
     }

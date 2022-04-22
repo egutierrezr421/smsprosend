@@ -1,5 +1,7 @@
 <?php
 
+use yii\helpers\Url;
+
 /** @var yii\web\View $this */
 /** @var string $title */
 /** @var string $top_separator_url */
@@ -21,7 +23,7 @@ $this->title = $title;
             <br>
             <?= $text ?>
             <br>
-            <button class="btn btn-warning mt-5 mb-5"><?= $btn_label ?></button>
+            <a href="<?= Url::to(['/site/login']) ?>" class="btn btn-warning mt-5 mb-5"><?= $btn_label ?></a>
         </div>
         <div class="col-1 d-md-block d-none">
             &nbsp;

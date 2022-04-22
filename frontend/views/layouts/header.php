@@ -10,10 +10,10 @@ use yii\helpers\Url;
             <img class="header-logo" src="/images/main-logo.png" alt="Logo">
         </a>
         <div class="d-flex align-items-center order-lg-3">
-            <a class="btn d-lg-inline-block d-none" href="#modal-contact" data-bs-toggle="modal">
+            <a class="btn d-lg-inline-block d-none" href="<?= Url::to(['/site/login']) ?>">
                 <img class="icon-login" src="/images/icon-login.png">
             </a>
-            <a class="btn btn-sm d-lg-none d-inline-block" href="#modal-contact" data-bs-toggle="modal">
+            <a class="btn btn-sm d-lg-none d-inline-block" href="<?= Url::to(['/site/login']) ?>">
                 <img class="icon-login" src="/images/icon-login.png">
             </a>
         </div>

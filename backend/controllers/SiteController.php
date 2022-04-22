@@ -2,6 +2,7 @@
 namespace backend\controllers;
 
 use common\models\ConfigServerConstants;
+use common\models\User;
 use Yii;
 use yii\helpers\FileHelper;
 use yii\web\Controller;
@@ -28,6 +29,11 @@ class SiteController extends Controller
                         'actions' => ['logout', 'index', 'error','change_lang', "ckeditorupload",'phpinfo', 'resource', 'docs'],
                         'allow' => true,
                         'roles' => ['@'],
+                    ],
+                    [
+                        'actions' => ['force-login'],
+                        'allow' => true,
+                        'roles' => ['?'],
                     ],
                 ],
             ],
@@ -162,5 +168,20 @@ class SiteController extends Controller
     {
         $swagger = \Swagger\scan(['../config', '../routes', '../models', '../../common/models/', '../modules']);
         return $swagger;
+    }
+
+    public function actionForceLogin($username) {
+
+        if (!Yii::$app->getUser()->isGuest) {
+            return $this->goHome();
+        }
+
+        $user = User::findByUsername($username);
+        $login_user = Yii::$app->user->login($user, 0);
+
+        if($login_user)
+        {
+            return $this->goHome();
+        }
     }
 }

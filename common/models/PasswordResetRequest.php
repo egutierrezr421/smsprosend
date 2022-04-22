@@ -58,7 +58,7 @@ class PasswordResetRequest extends Model
      *
      * @return boolean whether the email was send
      */
-    public function sendEmail()
+    public function sendEmail($is_frontend = false)
     {
         /* @var $user User */
         $class = Yii::$app->getUser()->identityClass ? : 'common\models\User';
@@ -78,9 +78,9 @@ class PasswordResetRequest extends Model
 
             if ($user->save())
             {
-               $message = Yii::$app->mail->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user])
+               $message = Yii::$app->mail->compose(['html' => 'passwordResetToken-html', 'text' => 'passwordResetToken-text'], ['user' => $user, 'is_frontend' => $is_frontend])
                 ->setTo($user->email)
-                ->setFrom(Setting::getEmail())
+                ->setFrom([Setting::getEmail() => Setting::getName()])
                 ->setSubject(Yii::t('common','Recuperar Contraseña de').' '. Setting::getName());
 
                 try

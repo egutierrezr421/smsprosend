@@ -1,15 +1,10 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: Nety
- * Date: 12/04/2022
- * Time: 2:27 PM
- */
 
 /** @var \backend\models\settings\Landing $landing */
 
 use backend\models\nomenclators\Country;
 use backend\models\nomenclators\Service;
+use yii\helpers\Url;
 ?>
 
 <!-- Section Hero -->
@@ -26,7 +21,7 @@ use backend\models\nomenclators\Service;
                     <p class="text-hero">
                         <?= $landing->welcome_text ?>
                     </p>
-                    <button class="btn btn-warning">Recarga ya</button>
+                    <a href="<?= Url::to(['/site/login']) ?>" class="btn btn-warning">Recarga ya</a>
                 </div>
                 <div class="d-none d-md-block col-1">
                     &nbsp;

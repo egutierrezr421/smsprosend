@@ -4,19 +4,22 @@ namespace frontend\controllers;
 
 use backend\models\nomenclators\Service;
 use backend\models\settings\Landing;
+use common\components\Notification;
+use common\models\GlobalFunctions;
+use common\models\PasswordResetRequest;
+use common\models\ResetPassword;
 use common\models\User;
 use frontend\models\ResendVerificationEmailForm;
 use frontend\models\VerifyEmailForm;
 use Yii;
 use yii\base\InvalidArgumentException;
+use yii\base\InvalidParamException;
 use yii\web\BadRequestHttpException;
 use yii\web\Controller;
-use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use common\models\LoginForm;
-use frontend\models\PasswordResetRequestForm;
 use frontend\models\ResetPasswordForm;
-use frontend\models\SignupForm;
+use common\models\SignupForm;
 use frontend\models\ContactForm;
 use yii\web\NotFoundHttpException;
 use yii\web\Response;
@@ -34,7 +37,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup'],
+                'only' => ['logout', 'signup', 'client-area', ],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -42,18 +45,18 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout'],
+                        'actions' => ['logout','client-area'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                 ],
             ],
-            'verbs' => [
-                'class' => VerbFilter::className(),
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
+//            'verbs' => [
+//                'class' => VerbFilter::className(),
+//                'actions' => [
+//                    'logout' => ['post'],
+//                ],
+//            ],
         ];
     }
 
@@ -91,12 +94,12 @@ class SiteController extends Controller
     public function actionLogin()
     {
         if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
+            return $this->redirect('client-area');
         }
 
         $model = new LoginForm();
         if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
+            return $this->redirect('client-area');
         }
 
         $model->password = '';
@@ -154,7 +157,7 @@ class SiteController extends Controller
     }
 
     /**
-     * Displays privacy page.
+     * Displays app page.
      *
      * @return mixed
      */
@@ -177,7 +180,6 @@ class SiteController extends Controller
         return $this->render('about', ['text' => $landing->about_text]);
     }
 
-
     /**
      * Signs user up.
      *
@@ -186,9 +188,30 @@ class SiteController extends Controller
     public function actionSignup()
     {
         $model = new SignupForm();
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            Yii::$app->session->setFlash('success', 'Thank you for registration. Please check your inbox for verification email.');
-            return $this->goHome();
+
+        if ($model->load(Yii::$app->request->post()))
+        {
+            if ($user = $model->signup())
+            {
+                if(isset($user->id) && !empty($user->id))
+                {
+                    GlobalFunctions::addFlashMessage('success',Yii::t('backend','Usuario registrado correctamente pendiente de activación. Espere un email para poder acceder.'));
+                    Notification::notify(Notification::KEY_NEW_USER_REGISTRED, 1, $user->id);
+
+                    if (Yii::$app->getUser()->login($user)) {
+                        return $this->redirect('confirm-signup');
+                    }
+                }
+                else
+                {
+                    GlobalFunctions::addFlashMessage('danger', Yii::t('backend', 'Error registrando el usuario'));
+                    $model->addErrors($user);
+                }
+            }
+            else
+            {
+                GlobalFunctions::addFlashMessage('danger', Yii::t('backend', 'Error registrando el usuario'));
+            }
         }
 
         return $this->render('signup', [
@@ -203,15 +226,15 @@ class SiteController extends Controller
      */
     public function actionRequestPasswordReset()
     {
-        $model = new PasswordResetRequestForm();
-        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
-            if ($model->sendEmail()) {
-                Yii::$app->session->setFlash('success', 'Check your email for further instructions.');
+        $model = new PasswordResetRequest();
+        if ($model->load(Yii::$app->getRequest()->post()) && $model->validate()) {
+            if ($model->sendEmail(true)) {
+                GlobalFunctions::addFlashMessage('success',Yii::t('backend','Revise su correo electrónico para obtener más instrucciones para restaurar la contraseña'));
+                return $this->redirect('info-reset-password');
+            } else {
 
-                return $this->goHome();
+                GlobalFunctions::addFlashMessage('danger',Yii::t('backend','Ha ocurrido un error. No se ha podido establecer la conexión con el servidor de correo'));
             }
-
-            Yii::$app->session->setFlash('error', 'Sorry, we are unable to reset password for the provided email address.');
         }
 
         return $this->render('requestPasswordResetToken', [
@@ -229,15 +252,25 @@ class SiteController extends Controller
     public function actionResetPassword($token)
     {
         try {
-            $model = new ResetPasswordForm($token);
-        } catch (InvalidArgumentException $e) {
+            $model = new ResetPassword($token);
+        } catch (InvalidParamException $e) {
             throw new BadRequestHttpException($e->getMessage());
         }
 
-        if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
-            Yii::$app->session->setFlash('success', 'New password saved.');
+        if ($model->load(Yii::$app->getRequest()->post()))
+        {
 
-            return $this->goHome();
+            if($model->resetPassword())
+            {
+                GlobalFunctions::addFlashMessage('success',Yii::t('backend','Nueva contraseña guardada correctamente'));
+
+                return $this->redirect('client-area');
+            }
+            else {
+
+                GlobalFunctions::addFlashMessage('danger',Yii::t('backend','Error actualizando la contraseña'));
+            }
+
         }
 
         return $this->render('resetPassword', [
@@ -379,5 +412,37 @@ class SiteController extends Controller
         } else {
             return ['success' => false];
         }
+    }
+
+    /**
+     * Displays app page.
+     *
+     * @return mixed
+     */
+    public function actionClientArea()
+    {
+        $landing = Landing::find()->one();
+
+        return $this->render('client-area', ['landing' => $landing]);
+    }
+
+    /**
+     * Displays confirm-signup page.
+     *
+     * @return mixed
+     */
+    public function actionConfirmSignup()
+    {
+        return $this->render('confirm-signup');
+    }
+
+    /**
+     * Displays info-reset-password page.
+     *
+     * @return mixed
+     */
+    public function actionInfoResetPassword()
+    {
+        return $this->render('info-reset');
     }
 }

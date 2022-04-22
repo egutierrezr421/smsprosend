@@ -47,6 +47,10 @@ html, body {
     scroll-behavior: smooth;
 }
 
+a {
+    text-decoration: none !important;
+}
+
 .form-calculator {
     background-color: white;
     border-radius: 10px 10px 10px 10px !important;
@@ -326,6 +330,132 @@ html, body {
     max-height: 350px !important;
 }
 
+/* enable absolute positioning */
+.inner-addon {
+    position: relative;
+    margin-bottom: 15px;
+}
+
+.icon-form-image {
+    width: 50px;
+    position: absolute;
+    float: right;
+    top: -8px;
+}
+
+/* align icon */
+.left-addon .icon-form-image  { left:  0px;}
+.right-addon .icon-form-image { right: 0px;}
+
+.noiconinvalid {
+    background-image: none !important;
+}
+
+.bg-blue-kubacel1 {
+    background-color: var(--kubacel-black) !important;
+}
+
+.logo-authenticate {
+    width: 40%;
+    margin: 15% 0 0 50%;
+}
+
+.img-list-logo{
+    background-image: url("/images/white-separator.png");
+    background-position: 2% 0;
+    height: 100px;
+    background-repeat: no-repeat;
+    background-size: 50%;
+    margin-bottom: 4%;
+}
+
+.icon-login1 {
+    max-width: 35px;
+    max-height: 40px;
+    background-image: url("/images/logo-white.png");
+    vertical-align: text-bottom;
+}
+.btn-acceder{
+    width: 100%;
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+}
+.btn-cancelar{
+    color: #ffffff !important;
+    background-color: #071E31 !important;
+    border-color: #071E31 !important;
+    width: 100%;
+    margin-top: 25px;
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+}
+.separador{
+    color: #F8F9FA !important;
+    height: 2px !important;
+    opacity: 1;
+}
+.span1{
+    color: #FCB814;
+}
+.span2{
+    color: #F8F9FA;
+}
+.buttons-register{
+    border-color: #ffffff ;
+    border-right: 2px solid #ffffff;
+}
+
+.hero-image-services {
+    width: 35%;
+    margin-left: -19%;
+    margin-top: 6%;
+}
+.hero-service-background {
+    background-image: url("/images/palma-hero.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    min-height: 275px;
+}
+.center-photos{
+    margin: 0 auto;
+}
+.link-url-direction{
+    max-width: 200px;
+    max-height: 50px;
+}
+.icons-services{
+    max-width: 50px;
+    height: 45px;
+}
+.services-items-group{
+    display: flex;
+    flex-direction: row;
+    align-content: center;
+    align-items: center;
+    text-align: center;
+}
+.btn-acceder-services{
+    width: 100%;
+    -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+    box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+}
+.cuadros-grises-servicios{
+    width: 100%;
+    margin: 0 auto;
+    min-height: 30px;
+}
+.novedades-services{
+    max-width: 100%;
+    max-height: 100%
+}
+
+.client-area-section {
+    background-color: var(--kubacel-white);
+}
+
 
 @media(max-width:767px) {
     .items-header-nav {
@@ -493,4 +623,27 @@ html, body {
     .content-image {
         width: 80%;
     }
+
+    .logo-authenticate {
+        width: 100%;
+        margin: 15% 0 0 50%;
+    }
+
+    .img-list-logo{
+        background-size: 100%;
+    }
+
+    .buttons-register{
+        border: none;
+    }
+
+    .btn-acceder-services{
+        height: 100%;
+        font-size: 1.3em;
+    }
+
+    .hero-service-background {
+        min-height: 100%;
+    }
+
 }
