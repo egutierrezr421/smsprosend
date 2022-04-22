@@ -5,7 +5,6 @@
 use backend\models\nomenclators\Country;
 use backend\models\nomenclators\Service;
 use yii\helpers\Url;
-Yii::setAlias('@kubacel-images', \common\models\ConfigServerConstants::BASE_URL_FRONTEND.'/smsprosend/frontend/web');
 ?>
 
 <!-- Section Hero -->
@@ -28,7 +27,7 @@ Yii::setAlias('@kubacel-images', \common\models\ConfigServerConstants::BASE_URL_
                     &nbsp;
                 </div>
                 <div class="col-12 col-md-3">
-                   <img src="/images/cuadros-grises.png" class="hero-squares">
+                   <img src="<?= Yii::getAlias('@kubacel-images') ?>/images/cuadros-grises.png" class="hero-squares">
                 </div>
             </div>
         </div>
