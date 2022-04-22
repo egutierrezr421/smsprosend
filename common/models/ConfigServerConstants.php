@@ -9,8 +9,8 @@ class ConfigServerConstants
     const BASE_URL_FRONTEND_LOCAL = 'http://frontend_smsprosend.local'; //Frontend
 
     //Real Domain URL
-    const BASE_URL_BACKEND = 'https://kubacel.com'; //Backend
-    const BASE_URL_FRONTEND = 'http://www.mydomain.com'; //Frontend
+    const BASE_URL_BACKEND = 'https://cliente.kubacel.com'; //Backend
+    const BASE_URL_FRONTEND = 'https://kubacel.com'; //Frontend
 
     //To control change languages in system
     const LANGUAGE_COOKIE_KEY_BACKEND = 'lang_cookie_back';
