@@ -1,5 +1,8 @@
 # SMS PRO SEND system using Yii2
 
+Tarea programada
+/usr/local/bin/php /home/oto4/public_html/smsprosend/yii console/sms-check
+
 Template for advanced systems using Yii2 technologies, It counts with user administration and access control, multiple language support and API configurations and user access to endpoints including test access token. 
 
 # Installation
