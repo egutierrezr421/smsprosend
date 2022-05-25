@@ -105,9 +105,6 @@ $create_button='';
                                              
 				[
 					'attribute'=>'execution_date',
-                    'value' => function($data){
-                        return GlobalFunctions::formatDateToShowInSystem($data->execution_date);
-                    },
 					'contentOptions'=>['class'=>'kv-align-left kv-align-middle'],
 					'hAlign'=>'center',
 					'filterType' => GridView::FILTER_DATE_RANGE,

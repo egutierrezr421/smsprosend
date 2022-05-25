@@ -49,13 +49,11 @@ $this->params['breadcrumbs'][] = $this->title;
                 
                 [
                     'attribute'=> 'execution_date',
-                    'value'=> GlobalFunctions::formatDateToShowInSystem($model->execution_date),
                     'format'=> 'html',
                 ],
                 
                 [
                     'attribute'=> 'created_at',
-                    'value'=> GlobalFunctions::formatDateToShowInSystem($model->created_at),
                     'format'=> 'html',
                 ],
                 
