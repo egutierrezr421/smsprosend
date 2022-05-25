@@ -37,7 +37,7 @@ class SiteController extends Controller
         return [
             'access' => [
                 'class' => AccessControl::className(),
-                'only' => ['logout', 'signup', 'client-area', ],
+                'only' => ['logout', 'signup', 'client-area', 'client-new-message','client-statistic','client-contacts'],
                 'rules' => [
                     [
                         'actions' => ['signup'],
@@ -45,7 +45,7 @@ class SiteController extends Controller
                         'roles' => ['?'],
                     ],
                     [
-                        'actions' => ['logout','client-area'],
+                        'actions' => ['logout','client-area', 'client-new-message','client-statistic','client-contacts'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
@@ -445,4 +445,29 @@ class SiteController extends Controller
     {
         return $this->render('info-reset');
     }
+
+    /**
+     * Displays app page.
+     *
+     * @return mixed
+     */
+    public function actionClientNewMessage()
+    {
+        $landing = Landing::find()->one();
+
+        return $this->render('client-new-message', ['landing' => $landing]);
+    }
+
+    /**
+     * Displays app page.
+     *
+     * @return mixed
+     */
+    public function actionClientStatistic()
+    {
+        $landing = Landing::find()->one();
+
+        return $this->render('client-statistic', ['landing' => $landing]);
+    }
+
 }

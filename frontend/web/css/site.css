@@ -53,6 +53,64 @@ a {
     text-decoration: none !important;
 }
 
+.center-box {
+    border-radius: 10px 10px 10px 10px !important;
+    -moz-border-radius: 10px 10px 10px 10px !important;
+    -webkit-border-radius: 10px 10px 10px 10px !important;
+    -webkit-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    -moz-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    margin: 2% auto !important;
+    width: 50%;
+    padding: 2%;
+}
+
+.w-65 {
+    width: 65% !important;
+}
+
+.balance-label {
+    font-size: 2.2em;
+    color: var(--kubacel-blue);
+    font-weight: bold;
+}
+
+.subtitle-balance-label {
+    position: relative;
+    top: -25px;
+    font-size: 1.2em;
+}
+
+.title-page-client {
+    top: auto;
+    color: var(--kubacel-blue);
+    font-style: italic;
+    margin-top: 30px;
+}
+
+.small-box {
+    border-radius: 10px 10px 10px 10px !important;
+    -moz-border-radius: 10px 10px 10px 10px !important;
+    -webkit-border-radius: 10px 10px 10px 10px !important;
+    -webkit-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    -moz-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    margin: 0 auto !important;
+
+}
+
+.sidebar-kubacel a {
+    color: white !important;
+}
+
+.sidebar-kubacel a:hover {
+    background-color: #577885 !important;
+}
+
+.sidebar-kubacel a.active {
+    background-color: var(--kubacel-black) !important;
+}
+
 .form-calculator {
     background-color: white;
     border-radius: 10px 10px 10px 10px !important;
@@ -108,7 +166,7 @@ a {
     background-image: url("/images/palma-hero.png");
     background-size: 100%;
     background-repeat: no-repeat;
-    min-height: 285px;
+    min-height: 325px;
 }
 
 .hero-square-gray {
@@ -228,6 +286,18 @@ a {
     background-image: url("/images/border-card.png");
     background-repeat: no-repeat;
     background-size: 100% 100%;
+}
+
+.card-simple {
+    background-color: white;
+    z-index: 10;
+    border-radius: 10px 10px 10px 10px !important;
+    -moz-border-radius: 10px 10px 10px 10px !important;
+    -webkit-border-radius: 10px 10px 10px 10px !important;
+    padding: 4px;
+    -webkit-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    -moz-box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
+    box-shadow: 0px 0px 25px 2px rgba(0,0,0,0.09);
 }
 
 .orange-separator-left {
@@ -430,7 +500,7 @@ a {
     background-image: url("/images/palma-hero.png");
     background-size: 100%;
     background-repeat: no-repeat;
-    min-height: 275px;
+    min-height: 325px;
 }
 .center-photos{
     margin: 0 auto;
@@ -470,8 +540,27 @@ a {
     background-color: var(--kubacel-white);
 }
 
+.help-block-error {
+    color: #dc3545 !important;
+}
+
+.background-white-wave {
+    background-image: url("/images/white-separator.png");
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-position: 50% 60%;
+}
+
+
+
+/* MEDIA QUERY */
 
 @media(max-width:767px) {
+
+    .background-white-wave {
+        background-position: 80% 100%;
+    }
+
     .items-header-nav {
         display: flex;
         flex-direction: column;
@@ -661,5 +750,15 @@ a {
         background-size: 90%;
         min-height: 50px;
         background-position: 50% 20%;
+    }
+
+    .center-box {
+        margin: 15px 0 15px 0 !important;
+        width: 100%;
+        padding: 5%;
+    }
+
+    .w-65 {
+        width: 100% !important;
     }
 }

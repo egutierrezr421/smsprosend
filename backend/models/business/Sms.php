@@ -30,6 +30,8 @@ use yii\helpers\Html;
  * @property float $cost
  * @property string $created_at
  * @property string $updated_at
+ * @property string $programmer_date
+ * @property int $type
  *
  * @property Country $country
  * @property Customer $customer
@@ -55,11 +57,13 @@ class Sms extends BaseModel
         $regex = new RegexCustomValidator();
         return [
             [['receptor_country_id', 'receptor_phone_number','message'], 'required'],
-            [['user_id', 'customer_id', 'encrypt_type', 'status', 'receptor_country_id'], 'integer'],
+            [['user_id', 'customer_id', 'encrypt_type', 'status', 'receptor_country_id', 'type'], 'integer'],
+            ['type', 'default', 'value' => Yii::$app->user->id],
             ['user_id', 'default', 'value' => Yii::$app->user->id],
             ['status', 'default', 'value' => UtilsConstants::SMS_STATUS_SENDED],
-            [['message'], 'string', 'max' => 150],
-            [['created_at', 'updated_at'], 'safe'],
+           // [['message'], 'string', 'max' => 150],
+            [['message'], 'string'],
+            [['created_at', 'updated_at', 'programmer_date'], 'safe'],
             [['id_msg'], 'string', 'max' => 255],
             [['response_qvatel'], 'string'],
             ['cost','number'],
@@ -89,6 +93,8 @@ class Sms extends BaseModel
             'cost' => Yii::t('backend', 'Costo'),
             'id_msg' => Yii::t('backend', 'ID Qvatel'),
             'response_qvatel' => Yii::t('backend', 'Respuesta Qvatel'),
+            'programmer_date' => Yii::t('backend', 'Fecha programado'),
+            'type' => Yii::t('backend', 'Tipo'),
         ];
     }
 
@@ -152,6 +158,9 @@ class Sms extends BaseModel
 
     /** :::::::::::: END > Abstract Methods and Overrides ::::::::::::*/
 
+    public function getFullPhoneNumber() {
+        return '+'.$this->country->phone_code.''.$this->receptor_phone_number;
+    }
     public static function getTotalSms() {
         $query = Sms::find();
 
@@ -284,7 +293,34 @@ class Sms extends BaseModel
             return '+'.$model->country->phone_code.''.$model->receptor_phone_number;
         };
 
+        $result['type_label'] = function ($model) {
+            return UtilsConstants::getSmsType($model->type);
+        };
+
         return $result;
+    }
+
+    public static function checkSmsProgramed() {
+        $all_sms = self::findAll(['status' => UtilsConstants::SMS_STATUS_PROGRAMED]);
+        $total_sms_sent = 0;
+        if($all_sms !== null) {
+            foreach ($all_sms AS $key => $model) {
+                $time_programed = strtotime($model->programmer_date);
+                $current_time = time();
+                if($time_programed <= $current_time) {
+                    $model->status = UtilsConstants::SMS_STATUS_SENDED;
+                    if($model->sendSms()) {
+                        //descontar del balance del usuario
+                        User::updateBalance($model->user_id,UtilsConstants::UPDATE_NUMBER_MINUS,$model->cost);
+                    }
+                    $total_sms_sent++;
+                    $model->save(false);
+                }
+
+            }
+        }
+
+        return $total_sms_sent;
     }
 
 }

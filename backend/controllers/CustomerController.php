@@ -12,6 +12,7 @@ use yii\filters\VerbFilter;
 use common\models\GlobalFunctions;
 use yii\helpers\Url;
 use yii\db\Exception;
+use yii\web\Response;
 
 /**
  * CustomerController implements the CRUD actions for Customer model.
@@ -282,6 +283,14 @@ class CustomerController extends Controller
 
             return $this->redirect(['index']);
         }
+    }
+
+    public function actionGetCustomer($id) {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+        $model = $this->findModel($id);
+        $full_phone = $model->getFull_phone();
+
+        return ['success' => true, 'model' => $model, 'full_phone' => $full_phone];
     }
 
 }

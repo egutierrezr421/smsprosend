@@ -18,8 +18,8 @@ class SmsSearch extends Sms
     public function rules()
     {
         return [
-            [['id', 'user_id', 'customer_id', 'encrypt_type', 'status'], 'integer'],
-            [['receptor_country_id', 'receptor_phone_number', 'message', 'created_at', 'updated_at', 'cost'], 'safe'],
+            [['id', 'user_id', 'customer_id', 'encrypt_type', 'status','type'], 'integer'],
+            [['receptor_country_id', 'receptor_phone_number', 'message', 'created_at', 'updated_at', 'cost','programmer_date'], 'safe'],
         ];
     }
 
@@ -71,6 +71,8 @@ class SmsSearch extends Sms
             'cost' => $this->cost,
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
+            'programmer_date' => $this->programmer_date,
+            'type' => $this->type,
         ]);
 
         $query->andFilterWhere(['like', 'receptor_country_id', $this->receptor_country_id])

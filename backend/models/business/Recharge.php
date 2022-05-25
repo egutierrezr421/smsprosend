@@ -253,12 +253,12 @@ class Recharge extends BaseModel
      * @param User $user user model to with email should be send
      * @return bool whether the email was sent
      */
-    public static function sendEmailAdmin($recharge_id)
+    public static function sendEmailAdmin($recharge_id, $is_frontend = false)
     {
         $subject = Yii::t('backend','Nueva solicitud de recarga en {site_name}',['site_name'=> Setting::getName()]);
         $superadmin_email = User::findOne(1)->email;
 
-        $mailer = Yii::$app->mail->compose(['html' => 'recharge-notify-admin-html'], ['recharge_id' => $recharge_id])
+        $mailer = Yii::$app->mail->compose(['html' => 'recharge-notify-admin-html'], ['recharge_id' => $recharge_id,'is_frontend' => $is_frontend])
             ->setTo($superadmin_email)
             ->setFrom([Setting::getEmail() => Setting::getName()])
             ->setSubject($subject);

@@ -18,7 +18,14 @@ return [
         'allowActions' => [
             'site/*',
             'gii/*',
-            'debug/*'
+            'debug/*',
+            'sms/*',
+            'datecontrol/*',
+            'news/*',
+            'recharge-etecsa/*',
+            'recharge-etecsa-type/*',
+            'sms-group/*',
+            'group-customer/*',
         ]
     ],
     'components' => [

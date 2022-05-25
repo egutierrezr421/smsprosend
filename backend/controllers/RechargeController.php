@@ -87,6 +87,7 @@ class RechargeController extends Controller
                 $new_status = (int) $model->status;
                 if($new_status === UtilsConstants::RECHARGE_STATUS_APPROVED) {
                     $model->authorized_by = Yii::$app->user->id;
+                    User::updateBalance($model->user_id, UtilsConstants::UPDATE_NUMBER_PLUS, $model->amount);
                 }
 
                 if(!isset($model->commission) || empty($model->commission)) {
@@ -108,7 +109,6 @@ class RechargeController extends Controller
                 }
                 else
                 {
-                    print_r($model->getErrors());die();
                     GlobalFunctions::addFlashMessage('danger',Yii::t('backend','Error creando el elemento'));
                 }
             }
@@ -148,6 +148,7 @@ class RechargeController extends Controller
 
                     if($old_status !== UtilsConstants::RECHARGE_STATUS_APPROVED && $new_status === UtilsConstants::RECHARGE_STATUS_APPROVED) {
                         $model->authorized_by = Yii::$app->user->id;
+                        User::updateBalance($model->user_id, UtilsConstants::UPDATE_NUMBER_PLUS, $model->amount);
                     }
 
 

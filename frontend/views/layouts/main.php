@@ -7,6 +7,7 @@ use frontend\assets\AppAsset;
 use yii\helpers\Html;
 use backend\models\settings\Landing;
 use frontend\widgets\Custom_Alert;
+use kartik\dialog\Dialog;
 
 AppAsset::register($this);
 
@@ -28,13 +29,41 @@ $landing = Landing::find()->one();
 <body class="d-flex flex-column h-100">
 <?php $this->beginBody() ?>
 
+
+<?= Dialog::widget() ?>
 <?= Custom_Alert::widget() ?>
 
 <?php if($action_id == 'login' || $action_id == 'signup' || $action_id == 'request-password-reset' || $action_id == 'reset-password') { ?>
     <?= $content ?>
-<?php } elseif ($action_id == 'client-area' || $action_id == 'confirm-signup' || $action_id == 'info-reset-password' || $controller_id == 'sms') { ?>
+<?php } elseif ($action_id == 'client-area' || $action_id == 'confirm-signup' || $action_id == 'info-reset-password') { ?>
     <?= $this->render('header-client', ['content' => $content]) ?>
     <?= $content ?>
+    <?= $this->render('sections/news-client', ['landing' => $landing]) ?>
+    <?= $this->render('footer-client', ['landing' => $landing]) ?>
+
+<?php } elseif ($action_id == 'client-new-message' || $action_id == 'client-offers' || $action_id == 'client-my-contacts' || $action_id == 'client-statistic' || $controller_id == 'customer' || $controller_id == 'recharge' || $controller_id == 'sms' || $controller_id == 'sms-group' || $controller_id == 'news' || $controller_id == 'recharge-etecsa'  || $controller_id == 'group-customer' ) { ?>
+    <?= $this->render('header-client', ['content' => $content]) ?>
+    <div class="container-fluid ps-4">
+        <div class="row">
+            <?= $this->render('sidebar-client', ['content' => $content, 'action_id' => $action_id, 'controller_id' => $controller_id]) ?>
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-2">
+                <header>
+                    <div class="row">
+                        <div class="col-md-8 text-center">
+                            <h1 class="title-page-client"><?= $this->title ?></h1>
+                        </div>
+                        <div class="col-md-4 mb-3">
+                            <img class="w-100" src="/images/content-client.png">
+                            <i class="subtitle-balance-label">Fondos disponibles</i> <i class="balance-label">$ <?= \backend\models\business\Recharge::getAvailableBalance() ?></i>
+                        </div>
+                    </div>
+                </header>
+                <?= $content ?>
+            </main>
+        </div>
+    </div>
+
+    <?= $this->render('sections/news-client', ['landing' => $landing]) ?>
     <?= $this->render('footer-client', ['landing' => $landing]) ?>
 
 <?php } else { ?>

@@ -3,6 +3,7 @@
 namespace frontend\assets;
 
 use yii\web\AssetBundle;
+use yii\web\JqueryAsset;
 
 /**
  * Main frontend application asset bundle.
@@ -19,9 +20,10 @@ class AppAsset extends AssetBundle
     ];
     public $js = [
         'js/bootstrap.bundle.min.js',
-        'js/jquery/dist/jquery.min.js',
-        'plugins/toastr/toastr.min.js',
+       // 'js/jquery/dist/jquery.min.js',
+        'plugins/toastr/toastr.min.js'
     ];
     public $depends = [
+        JqueryAsset::class
     ];
 }

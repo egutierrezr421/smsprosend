@@ -111,6 +111,12 @@ use backend\models\settings\Landing;
             ],
 
             [
+                'label' => Yii::t("backend","Recargas ETECSA"),
+                'icon' => 'refresh',
+                'url' => ['/recharge-etecsa/index'],
+            ],
+
+            [
                 'label' => Yii::t("backend","Integración API"),
                 'icon' => 'code',
                 'url' => ['/app-access/index'],
@@ -163,6 +169,18 @@ use backend\models\settings\Landing;
                         'label' => Yii::t("backend", "Ajustes de sistema"),
                         'icon' => 'cog',
                         'url' => ['/setting/update', 'id' => Setting::getIdSettingByActiveLanguage()],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend", "Noticias"),
+                        'icon' => 'list',
+                        'url' => ['/news/index'],
+                    ],
+
+                    [
+                        'label' => Yii::t("backend", "Ofertas de recargas"),
+                        'icon' => 'tasks',
+                        'url' => ['/recharge-etecsa-type/index'],
                     ],
                 ],
             ],

@@ -2,6 +2,7 @@
 
 namespace console\controllers;
 
+use backend\models\business\Sms;
 use backend\models\support\CronjobLog;
 use backend\models\support\CronjobTask;
 use console\models\ConsoleHelper;
@@ -32,6 +33,35 @@ class ConsoleController extends Controller
 //        if($taskId > 0){
 //            CronjobLog::registerJob($taskId, $execution_date, $message);
 //        }
+
+        echo '     ---> Action executed';
+        echo PHP_EOL;
+
+    }
+
+    /**
+     * Action for run test action
+     */
+    public function actionSmsCheck()
+    {
+        $execution_date = date('Y-m-d H:i:s');
+
+        set_time_limit(0);
+        try{
+
+            $sms_sent = Sms::checkSmsProgramed();
+
+            $message = "Ejecución correcta. $sms_sent sms procesados.";
+        }catch (\Exception $exception){
+            $message = Yii::t("backend", "Ejecución incorrecta: ") . $exception->getMessage();
+        }
+
+        ConsoleHelper::printMessage($message);
+
+        $taskId = CronjobTask::getTaskIdByName(CronjobTask::SMSCHECK);
+        if($taskId > 0){
+            CronjobLog::registerJob($taskId, $execution_date, $message);
+        }
 
         echo '     ---> Action executed';
         echo PHP_EOL;

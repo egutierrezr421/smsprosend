@@ -6,11 +6,14 @@ use Yii;
 
 class UtilsConstants
 {
+    const SMS_TYPE_NORMAL = 1;
+    const SMS_TYPE_PROGRAMED = 2;
 
     const SMS_STATUS_SENDED = 1;
     const SMS_STATUS_PENDING = 2;
     const SMS_STATUS_SUCCESS = 3;
     const SMS_STATUS_FAIL = 4;
+    const SMS_STATUS_PROGRAMED = 5;
 
     const SEND_MAIL_RESPONSE_TYPE_SUCCESS = 1;
     const SEND_MAIL_RESPONSE_TYPE_ERROR = 2;
@@ -40,6 +43,15 @@ class UtilsConstants
     const SERVICES_CODE_VIDEOCALL = '05';
     const SERVICES_CODE_VIDEOCALL_3D = '06';
     const SERVICES_CODE_2FA = '07';
+
+    const NEWS_TYPE_OFFERS = 1;
+    const NEWS_TYPE_NEWS = 2;
+
+    const RECHARGE_TYPE_MOBILE = 1;
+    const RECHARGE_TYPE_NAUTA = 2;
+
+    const RECHARGE_ETECSA_STATUS_PENDING = 1;
+    const RECHARGE_ETECSA_STATUS_COMPLETE = 2;
 
     /**
      * @param $array
@@ -132,6 +144,78 @@ class UtilsConstants
         $array[self::SERVICES_CODE_VIDEOCALL] = Yii::t('backend', 'Videollamadas');
         $array[self::SERVICES_CODE_VIDEOCALL_3D] = Yii::t('backend', 'Videollamadas 3D');
         $array[self::SERVICES_CODE_2FA] = Yii::t('backend', '2FA');
+
+        return self::getValueOfArray($array,$value,$optional_value);
+    }
+
+    /**
+     * Tipos de sms
+     *
+     * @param null|integer $value
+     * @param boolean $optional_value Poner este valor en true cuando se quiere mostrar en los index el valor específico pero este es opcional, evita dar error y devuelve null
+     * @return array|mixed
+     */
+    public static function getSmsType($value = null, $optional_value = false)
+    {
+        $array = [];
+
+        $array[self::SMS_TYPE_NORMAL] = Yii::t('backend', 'Normal');
+        $array[self::SMS_TYPE_PROGRAMED] = Yii::t('backend', 'Programado');
+
+
+        return self::getValueOfArray($array,$value,$optional_value);
+    }
+
+    /**
+     * Tipos de news
+     *
+     * @param null|integer $value
+     * @param boolean $optional_value Poner este valor en true cuando se quiere mostrar en los index el valor específico pero este es opcional, evita dar error y devuelve null
+     * @return array|mixed
+     */
+    public static function getNewsType($value = null, $optional_value = false)
+    {
+        $array = [];
+
+        $array[self::NEWS_TYPE_OFFERS] = Yii::t('backend', 'Ofertas');
+        $array[self::NEWS_TYPE_NEWS] = Yii::t('backend', 'Novedades');
+
+
+        return self::getValueOfArray($array,$value,$optional_value);
+    }
+
+    /**
+     * Tipos de recarga
+     *
+     * @param null|integer $value
+     * @param boolean $optional_value Poner este valor en true cuando se quiere mostrar en los index el valor específico pero este es opcional, evita dar error y devuelve null
+     * @return array|mixed
+     */
+    public static function getRechargeType($value = null, $optional_value = false)
+    {
+        $array = [];
+
+        $array[self::RECHARGE_TYPE_MOBILE] = Yii::t('backend', 'Recarga programada');
+        $array[self::RECHARGE_TYPE_NAUTA] = Yii::t('backend', 'Recarga programada nauta');
+
+
+        return self::getValueOfArray($array,$value,$optional_value);
+    }
+
+    /**
+     * Estado de recarga de etecsa
+     *
+     * @param null|integer $value
+     * @param boolean $optional_value Poner este valor en true cuando se quiere mostrar en los index el valor específico pero este es opcional, evita dar error y devuelve null
+     * @return array|mixed
+     */
+    public static function getStatusRechargeEtecsa($value = null, $optional_value = false)
+    {
+        $array = [];
+
+        $array[self::RECHARGE_ETECSA_STATUS_PENDING] = Yii::t('backend', 'Pendiente');
+        $array[self::RECHARGE_ETECSA_STATUS_COMPLETE] = Yii::t('backend', 'Completada');
+
 
         return self::getValueOfArray($array,$value,$optional_value);
     }

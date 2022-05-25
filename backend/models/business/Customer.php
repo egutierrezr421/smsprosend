@@ -28,6 +28,7 @@ use yii\helpers\Html;
  * @property int $max_sms
  * @property string $created_at
  * @property string $updated_at
+ * @property string $nauta
  *
  * @property Country $country
  * @property User $user
@@ -37,6 +38,7 @@ use yii\helpers\Html;
  */
 class Customer extends BaseModel
 {
+    public $full_phone;
 
     /**
      * {@inheritdoc}
@@ -63,8 +65,8 @@ class Customer extends BaseModel
             [['token'], 'default', 'value' => function ($model, $attribute) {
                 return self::generateToken();
             }],
-            [['created_at', 'updated_at'], 'safe'],
-            [['name'], 'string', 'max' => 255],
+            [['created_at', 'updated_at', 'full_phone'], 'safe'],
+            [['name','nauta'], 'string', 'max' => 255],
             [['country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['country_id' => 'id']],
             [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => User::className(), 'targetAttribute' => ['user_id' => 'id']],
         ];
@@ -89,6 +91,7 @@ class Customer extends BaseModel
             'send_sms_type' => Yii::t('backend', 'Tipo de acceso'),
             'max_sms' => Yii::t('backend', 'SMS permitidos'),
             'token' => Yii::t('backend', 'Token'),
+            'nauta' => Yii::t('backend', 'Nauta'),
         ];
     }
 
@@ -222,5 +225,9 @@ class Customer extends BaseModel
                 $model->save(false);
             }
         }
+    }
+
+    public function getFull_phone() {
+        return '+'.$this->country->phone_code.''.$this->phone_number;
     }
 }

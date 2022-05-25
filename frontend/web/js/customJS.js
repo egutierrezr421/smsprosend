@@ -1,10 +1,13 @@
 $(function() {
 
-    $('.modalButton').click(function (e) {
+    $('.btn-delete').click(function (e) {
         e.preventDefault();
-        $('#myModal').modal('show')
-            .find('#modalContent')
-            .load($(this).attr('href'));
+        var url = $(this).attr('value');
+        krajeeDialog.confirm('Are you sure', function(out){
+            if(out) {
+                alert('Yes'); // or do something on confirmation
+            }
+        });
     });
 
 });

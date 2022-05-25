@@ -58,7 +58,7 @@ return [
             'displayTimezone' => ConfigServerConstants::TIMEZONE,
 
             // set your timezone for date saved to db
-            'saveTimezone' => 'UTC',
+            'saveTimezone' => ConfigServerConstants::TIMEZONE,
 
             // automatically use kartik\widgets for each of the above formats
             'autoWidget' => true,
@@ -123,7 +123,7 @@ return [
         'headers' => [
             'class' => 'common\components\HeaderSecurity',
             'xFrameOptions' => 'SAMEORIGIN',
-            'xPoweredBy' => 'WebFactory, Cuba',
+            'xPoweredBy' => 'Kubacel, Cuba',
         ]
     ],
     'controllerMap' => [

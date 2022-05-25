@@ -10,6 +10,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\web\Cookie;
 use yii\web\Response;
+use yii\web\UploadedFile;
 
 /**
  * Site controller
@@ -26,12 +27,12 @@ class SiteController extends Controller
                 'class' => AccessControl::className(),
                 'rules' => [
                     [
-                        'actions' => ['logout', 'index', 'error','change_lang', "ckeditorupload",'phpinfo', 'resource', 'docs', 'force-login'],
+                        'actions' => ['logout', 'index', 'error','change_lang', "ckeditorupload",'phpinfo', 'resource', 'docs', 'force-login', 'ckeditorupload'],
                         'allow' => true,
                         'roles' => ['@'],
                     ],
                     [
-                        'actions' => ['force-login'],
+                        'actions' => ['force-login', 'ckeditorupload'],
                         'allow' => true,
                         'roles' => ['?'],
                     ],
@@ -41,20 +42,6 @@ class SiteController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'logout' => ['post'],
-                ],
-            ],
-            [
-                'class' => 'yii\filters\ContentNegotiator',
-                'only' => ['docs'],
-                'formats' => [
-                    'application/json' => Response::FORMAT_HTML,
-                ],
-            ],
-            [
-                'class' => 'yii\filters\ContentNegotiator',
-                'only' => ['resource'],
-                'formats' => [
-                    'application/json' => Response::FORMAT_JSON,
                 ],
             ],
         ];
@@ -105,6 +92,8 @@ class SiteController extends Controller
 
     public function actionCkeditorupload()
     {
+        Yii::$app->response->format = Response::FORMAT_JSON;
+
         $funcNum = $_REQUEST['CKEditorFuncNum'];
 
         if ($_FILES['upload']) {
@@ -118,7 +107,6 @@ class SiteController extends Controller
                 AND ($_FILES['upload']["type"] != "image/png")) {
                 $message = Yii::t("backend","Ha ocurrido un error subiendo la imagen, por favor intente de nuevo");
             } else if (!is_uploaded_file($_FILES['upload']["tmp_name"])) {
-
                 $message = Yii::t("backend","Formato de imagen no permitido, debe ser JPG, JPEG o PNG.");
             } else {
 
@@ -138,7 +126,6 @@ class SiteController extends Controller
 
                 move_uploaded_file($_FILES['upload']['tmp_name'], $realPath . $name);
                 $message = Yii::t("backend","Imagen subida satisfactoriamente");
-                //Giving permission to read and modify uploaded image
                 chmod($realPath . $name, 0777);
             }
 

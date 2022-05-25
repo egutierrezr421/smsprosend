@@ -7,8 +7,15 @@ use yii\helpers\Html;
 /* @var $message \yii\mail\MessageInterface the message being composed */
 /* @var $content string main view render result */
 
-$path_logo = Yii::$app->getBasePath().'/web'.Setting::getUrlLogoBySettingAndType(1,Setting::SETTING_ID);
-$link = Yii::$app->urlManager->createAbsoluteUrl(['/recharge/update', 'id' => $recharge_id]);
+if($is_frontend) {
+    $path_logo = Yii::getAlias('@backend').'/web'.Setting::getUrlLogoBySettingAndType(1,Setting::SETTING_ID);
+    $link = Yii::$app->urlManagerBackend->createAbsoluteUrl(['/recharge/update', 'id' => $recharge_id]);
+
+} else {
+    $path_logo = Yii::$app->getBasePath().'/web'.Setting::getUrlLogoBySettingAndType(1,Setting::SETTING_ID);
+    $link = Yii::$app->urlManager->createAbsoluteUrl(['/recharge/update', 'id' => $recharge_id]);
+
+}
 
 ?>
 
@@ -20,7 +27,7 @@ $link = Yii::$app->urlManager->createAbsoluteUrl(['/recharge/update', 'id' => $r
     <meta name="x-apple-disable-message-reformatting">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta content="telephone=no" name="format-detection">
-    <title>Mensaje de prueba</title>
+    <title>Recarga solicitada</title>
     <!--[if (mso 16)]>
     <style type="text/css">
         a {text-decoration: none;}

@@ -23,14 +23,12 @@ use yii\helpers\Html;
  */
 class CronjobTask extends BaseModel
 {
-    const SYNC_TO_CRM = 'SYNC_TO_CRM';
-    const JOB_STATS = 'STATS';
+    const SMSCHECK = 'SMSCHECK';
 
     public static function getTasksNames()
     {
         return [
-            self::SYNC_TO_CRM => self::SYNC_TO_CRM,
-            self::JOB_STATS => self::JOB_STATS
+            self::SMSCHECK => self::SMSCHECK,
         ];
     }
 
