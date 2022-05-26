@@ -24,12 +24,6 @@ use yii\helpers\Html;
                 <?= Html::a('Ofertas disponibles',['/news/offers'],['class' => 'nav-link '.$offers_active]) ?>
             </li>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase">
-                <span>Contactos</span>
-                <a class="link-secondary" href="#" aria-label="Contactos">
-                    <span data-feather="plus-circle" class="align-text-bottom"></span>
-                </a>
-            </h6>
 
             <li class="nav-item">
                 <?php $customer_active = ($controller_id == 'customer')? 'active' : '';  ?>
@@ -41,13 +35,7 @@ use yii\helpers\Html;
                 <?= Html::a('Mis grupos',['/group-customer/index'],['class' => 'nav-link '.$group_customer]) ?>
             </li>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase">
-                <span>Mensajes</span>
-                <a class="link-secondary" href="#" aria-label="Mensajes">
-                    <span data-feather="plus-circle" class="align-text-bottom"></span>
-                </a>
-            </h6>
-
+            <?php if($controller_id == 'sms' || $controller_id == 'sms-group'): ?>
             <li class="nav-item">
                 <?php $sms_active = ($action_id == 'send-sms')? 'active' : '';  ?>
                 <?= Html::a('Nuevo mensaje',['/sms/send-sms'],['class' => 'nav-link '.$sms_active]) ?>
@@ -68,20 +56,17 @@ use yii\helpers\Html;
                 <?= Html::a('Historial de envíos',['/sms/history-sms'],['class' => 'nav-link '.$history]) ?>
             </li>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-uppercase">
-                <span>Recargas</span>
-                <a class="link-secondary" href="#" aria-label="Mensajes">
-                    <span data-feather="plus-circle" class="align-text-bottom"></span>
-                </a>
-            </h6>
+            <?php endif; ?>
 
+        </ul>
+
+        <?php if($controller_id == 'recharge-etecsa'): ?>
+
+        <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <?php $new_recharge = ($action_id == 'new-recharge')? 'active' : '';  ?>
                 <?= Html::a('Nueva recarga',['/recharge-etecsa/new-recharge'],['class' => 'nav-link '.$new_recharge]) ?>
             </li>
-        </ul>
-
-        <ul class="nav flex-column mb-2">
             <li class="nav-item">
                 <?php $recharge_program = ($action_id == 'recharges-program')? 'active' : '';  ?>
                 <?= Html::a('Recargas programadas',['/recharge-etecsa/recharges-program'],['class' => 'nav-link '.$recharge_program]) ?>
@@ -92,5 +77,7 @@ use yii\helpers\Html;
                 <?= Html::a('Historial de recargas',['/recharge-etecsa/recharges-history'],['class' => 'nav-link '.$recharges_history]) ?>
             </li>
         </ul>
+
+        <?php endif; ?>
     </div>
 </nav>
