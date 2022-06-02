@@ -14,7 +14,7 @@ $this->params['breadcrumbs'][] = $this->title;
 ?>
 
 <p>
-    <?= Html::a(Yii::t('frontend', 'Fondear'), ['create'], ['class' => 'btn btn-primary']) ?>
+    <?= Html::a('<i class="fas fa-dollar-sign"></i> '.Yii::t('frontend', 'Fondear'), ['create'], ['class' => 'btn btn-primary btn-lg']) ?>
 </p>
 
 
