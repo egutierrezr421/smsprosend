@@ -37,9 +37,9 @@ $landing = Landing::find()->one();
     <?= $content ?>
 <?php } elseif ($action_id == 'client-area' || $action_id == 'confirm-signup' || $action_id == 'info-reset-password') { ?>
     <?= $this->render('header-client', ['content' => $content]) ?>
-    <div class="vh-100">
+    <main class="min-vh-100">
         <?= $content ?>
-    </div>
+    </main>
     <?= $this->render('sections/news-client', ['landing' => $landing]) ?>
     <?= $this->render('footer-client', ['landing' => $landing]) ?>
 
@@ -48,7 +48,7 @@ $landing = Landing::find()->one();
     <div class="container-fluid ps-4">
         <div class="row">
             <?= $this->render('sidebar-client', ['content' => $content, 'action_id' => $action_id, 'controller_id' => $controller_id]) ?>
-            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-2 vh-100">
+            <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4 mt-2 min-vh-100">
                 <header>
                     <div class="row">
                         <div class="col-md-8 text-center">

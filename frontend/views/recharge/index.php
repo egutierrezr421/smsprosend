@@ -13,9 +13,12 @@ $this->params['breadcrumbs'][] = $this->title;
 
 ?>
 
-<p>
-    <?= Html::a('<i class="fas fa-dollar-sign"></i> '.Yii::t('frontend', 'Fondear'), ['create'], ['class' => 'btn btn-primary btn-lg']) ?>
-</p>
+<div class="text-center mt-4 mb-5">
+    <h1>
+        <?= Html::a('<i class="fas fa-dollar-sign"></i> '.Yii::t('frontend', 'Fondear'), ['create'], ['class' => 'bg-blue-kubacel color-white-kubacel rounded-2 ps-3 pe-3 pt-2 pb-2']) ?>
+    </h1>
+</div>
+
 
 
 <?= ListView::widget([
