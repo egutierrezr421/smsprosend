@@ -77,11 +77,11 @@ use backend\models\UtilsConstants;
                     ?>
                 </div>
 
-                <div class="col-md-12 mb-3">
+                <div id="hiddenEmail" class="col-md-12 mb-3" style="display: none;">
                     <?= $form->field($model, 'email')->textInput(['maxlength' => true]) ?>
                 </div>
 
-                <div class="col-md-12 mb-3">
+                <div id="hiddenPhone" class="col-md-12 mb-3" style="display: none;">
                     <?= $form->field($model, 'phone')->textInput(['maxlength' => true]) ?>
                 </div>
             </div>
@@ -132,12 +132,20 @@ use backend\models\UtilsConstants;
 <?php
 $url = \yii\helpers\Url::to(['customer/get-customer']);
 $url_2 = \yii\helpers\Url::to(['recharge-etecsa-type/get-data']);
+$type_mobile = UtilsConstants::RECHARGE_TYPE_MOBILE;
+$type_nauta = UtilsConstants::RECHARGE_TYPE_NAUTA;
+
 $js_main = <<<JS
 $(document).ready(function(e) {
     
        updateData();
        loadCustomerData();
+       hiddenLoad();
         	       
+       	$("#rechargeetecsa-type").change(function (e) {
+		    hiddenLoad();
+	    });
+       	
 		$("#rechargeetecsa-quantity-disp").keyup(function (e) {
 		    updateData();
 	    });		
@@ -214,6 +222,21 @@ $(document).ready(function(e) {
 		        $("#rechargeetecsa-email").val(null);
             }
 		    
+		}
+		
+		function hiddenLoad() {
+		    
+		    var type = $("#rechargeetecsa-type").val();
+
+		    if(type == "$type_mobile") {
+		        document.getElementById('hiddenPhone').style.display = 'block';
+		        document.getElementById('hiddenEmail').style.display = 'none';
+		    }
+		    
+            if(type == "$type_nauta") {
+                document.getElementById('hiddenPhone').style.display = 'none';
+		        document.getElementById('hiddenEmail').style.display = 'block';
+		    }
 		}
 });
 JS;
