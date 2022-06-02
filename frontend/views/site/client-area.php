@@ -8,9 +8,19 @@ $username = User::findOne(Yii::$app->user->id)->username;
 
 <section class="container-fluid client-area-section">
     <div class="container">
+        <div class="amount-top-left d-md-block d-none">
+            <i class="color-blue-kubacel">Fondos disponibles</i><br>
+            <i class="balance-label">$ <?= \backend\models\business\Recharge::getAvailableBalance() ?></i>
+        </div>
         <div class="row">
-            <div class="col-md-8 text-center center-photos mt-5 mb-md-5 mb-2">
-                <div class="row hero-service-background mb-0 mb-md-3">
+            <div class="col-12 d-md-none d-block text-center mt-2">
+                <div class="d-md-block">
+                    <i class="color-blue-kubacel">Fondos disponibles</i><br>
+                    <i class="balance-label">$ <?= \backend\models\business\Recharge::getAvailableBalance() ?></i>
+                </div>
+            </div>
+            <div class="col-md-8 text-center center-photos mt-3 mb-2">
+                <div class="row hero-service-background">
                     <div class="col-12">
                         <img class="hero-image-services" src="/images/our-services.png">
                     </div>

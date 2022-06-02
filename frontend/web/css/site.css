@@ -111,6 +111,12 @@ a {
     background-color: var(--kubacel-black) !important;
 }
 
+.amount-top-left {
+    position: relative;
+    float: left;
+    top: 50px;
+}
+
 .form-calculator {
     background-color: white;
     border-radius: 10px 10px 10px 10px !important;
