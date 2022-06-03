@@ -53,12 +53,81 @@ a {
     text-decoration: none !important;
 }
 
+.avatar-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-top: -10px;
+}
+
+.previewAvatar {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    display: table-cell;
+    min-width: 145px;
+    min-height: 140px;
+    max-width: 100%;
+    border-radius: 5px;
+}
+
+.previewVideo {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    display: table-cell;
+    max-width: 100%;
+}
+.krajee-default.file-preview-frame .kv-file-content {
+    width: 100% !important;
+    height: 100% !important;
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.krajee-default.file-preview-frame {
+    margin: 0px !important;
+    padding: 0px !important;
+}
+
+.file-drop-zone {
+    margin: 8px 2px 15px 2px !important;
+}
+
+.previewVideoLimitedSize {
+    margin: 0;
+    padding: 0;
+    border: none;
+    box-shadow: none;
+    text-align: center;
+    display: table-cell;
+    max-width: 50%;
+}
+
 .close.fileinput-remove {
     background-color: inherit !important;
     border: 0;
     font-size: 1.5em;
     color: red;
+}
 
+.profile-user-img {
+    margin: 0 auto;
+    width: 100px;
+    padding: 3px;
+    border: 3px solid #d2d6de;
+}
+.img-circle {
+    border-radius: 50%;
+}
+.img-responsive, .thumbnail > img, .thumbnail a > img, .carousel-inner > .item > img, .carousel-inner > .item > a > img {
+    display: block;
+    max-width: 100%;
+    height: auto;
 }
 
 .center-box {

@@ -501,7 +501,7 @@ class SiteController extends Controller
         $old_role = GlobalFunctions::getRol($model->id);
         $model->role = $old_role;
 
-        $oldFile = $model->getImageFile();
+        $oldFile = $model->getImageFile(true);
         $oldAvatar = $model->avatar;
 
         $model->switch_status = 1;
@@ -536,7 +536,7 @@ class SiteController extends Controller
                         }
                     }
 
-                    $path = $model->getImageFile();
+                    $path = $model->getImageFile(true);
                     $image->saveAs($path);
                 }
 
