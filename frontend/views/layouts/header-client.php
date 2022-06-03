@@ -13,6 +13,9 @@ use yii\helpers\Url;
         </a>
         <?php if(!Yii::$app->user->isGuest) : ?>
         <div class="order-lg-3">
+            <a class="me-4" href="<?= Url::to(['/site/profile']) ?>">
+                <i class="fas fa-user fa-2x text-white"></i>
+            </a>
             <a class="mr-5" href="<?= Url::to(['/site/logout']) ?>">
                 <i class="fas fa-sign-out-alt fa-2x text-white"></i>
             </a>

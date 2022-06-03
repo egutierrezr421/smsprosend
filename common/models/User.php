@@ -422,13 +422,14 @@ class User extends ActiveRecord implements IdentityInterface
 	 * get path avatar of active user
 	 * @return string $avatar_path
 	 */
-	public static function getUrlAvatarByActiveUser()
+	public static function getUrlAvatarByActiveUser($is_frontend= false)
 	{
 		$user_active_id= \Yii::$app->getUser()->id;
 		$model = User::findOne($user_active_id);
 		if($model)
 		{
-			$path = Url::to('@web/uploads/avatars/');
+		    $pre_path = ($is_frontend)? Yii::$app->urlManagerBackend->baseUrl.'/' : '';
+			$path = $pre_path.''.Url::to('@web/uploads/avatars/');
 
 			if($model->avatar==null || $model->avatar== '')
 				$url = $path.'avatar_default.jpg';

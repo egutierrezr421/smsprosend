@@ -53,6 +53,14 @@ a {
     text-decoration: none !important;
 }
 
+.close.fileinput-remove {
+    background-color: inherit !important;
+    border: 0;
+    font-size: 1.5em;
+    color: red;
+
+}
+
 .center-box {
     border-radius: 10px 10px 10px 10px !important;
     -moz-border-radius: 10px 10px 10px 10px !important;

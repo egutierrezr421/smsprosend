@@ -5,6 +5,7 @@ namespace frontend\controllers;
 use backend\models\nomenclators\Service;
 use backend\models\settings\Landing;
 use common\components\Notification;
+use common\models\ChangePassword;
 use common\models\GlobalFunctions;
 use common\models\PasswordResetRequest;
 use common\models\ResetPassword;
@@ -468,6 +469,115 @@ class SiteController extends Controller
         $landing = Landing::find()->one();
 
         return $this->render('client-statistic', ['landing' => $landing]);
+    }
+
+    /**
+     * Finds the User model based on its primary key value.
+     * If the model is not found, a 404 HTTP exception will be thrown.
+     * @param integer $id
+     * @return User the loaded model
+     * @throws NotFoundHttpException if the model cannot be found
+     */
+    protected function findModel($id)
+    {
+        if (($model = User::findOne($id)) !== null) {
+            return $model;
+        } else {
+            throw new NotFoundHttpException('The requested page does not exist.');
+        }
+    }
+
+    /**
+     * Updates profile an existing User model.
+     * If update is successful, the browser will be redirected to the 'index' page.
+     * @return mixed
+     */
+    public function actionProfile()
+    {
+        $id= Yii::$app->user->id;
+        $model = $this->findModel($id);
+        $model->scenario= User::SCENARIO_UPDATE;
+
+        $old_role = GlobalFunctions::getRol($model->id);
+        $model->role = $old_role;
+
+        $oldFile = $model->getImageFile();
+        $oldAvatar = $model->avatar;
+
+        $model->switch_status = 1;
+
+        if($model->load(Yii::$app->request->post()))
+        {
+
+            // process uploaded image file instance
+            $image = $model->uploadImage();
+
+            // revert back if no valid file instance uploaded
+            if ($image === false) {
+                $model->avatar = $oldAvatar;
+            }
+
+            $allScenarios= $model->scenarios();
+
+            if($model->save(true,$allScenarios[$model->scenario]))
+            {
+                $model->save();
+
+                // upload only if valid uploaded file instance found
+                if ($image !== false) // delete old and overwrite
+                {
+                    if(file_exists($oldFile))
+                    {
+                        try{
+                            unlink($oldFile);
+                        }catch (\Exception $exception){
+                            Yii::info("Error deleting image on UserController: " . $oldFile);
+                            Yii::info($exception->getMessage());
+                        }
+                    }
+
+                    $path = $model->getImageFile();
+                    $image->saveAs($path);
+                }
+
+                GlobalFunctions::addFlashMessage('success',Yii::t('backend','Perfil de usuario actualizado satisfactoriamente'));
+                return $this->redirect(['profile','model' => $model]);
+            }
+            else
+            {
+                GlobalFunctions::addFlashMessage('danger',Yii::t('backend','Error actualizando el perfil del usuario'));
+                return $this->render('profile', ['model' => $model,]);
+            }
+
+
+        } else {
+            return $this->render('profile', ['model' => $model,]);
+        }
+    }
+
+    /**
+     * Reset password
+     * @return string
+     */
+    public function actionChangePassword()
+    {
+        $model = new ChangePassword();
+        if ($model->load(Yii::$app->getRequest()->post())) {
+            if ($model->change())
+            {
+                GlobalFunctions::addFlashMessage('success', Yii::t('backend', 'Contraseña actualizada correctamente'));
+
+                return $this->redirect(['profile']);
+            }
+            else
+            {
+                GlobalFunctions::addFlashMessage('danger',Yii::t('backend','Error al actualizar la contraseña'));
+            }
+        }
+
+        return $this->render('change-password', [
+            'model' => $model,
+        ]);
     }
 
 }

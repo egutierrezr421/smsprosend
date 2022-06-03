@@ -43,7 +43,7 @@ $landing = Landing::find()->one();
     <?= $this->render('sections/news-client', ['landing' => $landing]) ?>
     <?= $this->render('footer-client', ['landing' => $landing]) ?>
 
-<?php } elseif ($action_id == 'client-new-message' || $action_id == 'client-offers' || $action_id == 'client-my-contacts' || $action_id == 'client-statistic' || $controller_id == 'customer' || $controller_id == 'recharge' || $controller_id == 'sms' || $controller_id == 'sms-group' || $controller_id == 'news' || $controller_id == 'recharge-etecsa'  || $controller_id == 'group-customer' ) { ?>
+<?php } elseif ($action_id == 'client-new-message' || $action_id == 'client-offers' || $action_id == 'client-my-contacts' || $action_id == 'client-statistic' || $controller_id == 'customer' || $controller_id == 'recharge' || $controller_id == 'sms' || $controller_id == 'sms-group' || $controller_id == 'news' || $controller_id == 'recharge-etecsa'  || $controller_id == 'group-customer' || $action_id == 'profile' || $action_id == 'change-password') { ?>
     <?= $this->render('header-client', ['content' => $content]) ?>
     <div class="container-fluid ps-4">
         <div class="row">
