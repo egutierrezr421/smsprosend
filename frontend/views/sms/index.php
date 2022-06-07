@@ -32,5 +32,11 @@ echo $this->render('_search', ['model' => $searchModel]);
     'itemView' => function ($model, $key, $index, $widget) {
         return $this->render('_items', ['model' => $model]);
     },
+    'pager' => [
+        'maxButtonCount' => 3,
+        'options' => ['class' => 'pagination justify-content-center'],
+        'linkContainerOptions' => ['class' => 'page-item'],
+        'linkOptions' => ['class' => 'page-link']
+    ],
 ]) ?>
 
