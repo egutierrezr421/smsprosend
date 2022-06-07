@@ -371,35 +371,42 @@ class Sms extends BaseModel
 
                     return true;
                 }
-            }
-
-
-        }
-        else
-        {
-            $response = $qvatel->reporte_sms($this->id_msg);
-            if($response) {
-                $resObj = json_decode($response);
-                $result = (int) $resObj->result;
-
-                if($result === 1) {
-                    $status = $resObj->estado;
-                    if($status == 'Entregado') {
-                        $this->status = UtilsConstants::SMS_STATUS_SUCCESS;
-                    } elseif ($status == 'Pendiente') {
-                        $this->status = UtilsConstants::SMS_STATUS_PENDING;
-                    } elseif ($status == 'Fallido') {
-                        $this->status = UtilsConstants::SMS_STATUS_FAIL;
-                    }
-
-                    $this->save();
-
-                    return true;
+                else {
+                    return false;
                 }
             }
         }
+        else
+        {
+            if($this->id_msg !== null) {
+                $response = $qvatel->reporte_sms($this->id_msg);
+                if($response) {
+                    $resObj = json_decode($response);
+                    $result = (int) $resObj->result;
 
-        return false;
+                    if($result === 1) {
+                        $status = $resObj->estado;
+                        if($status == 'Entregado') {
+                            $this->status = UtilsConstants::SMS_STATUS_SUCCESS;
+                        } elseif ($status == 'Pendiente') {
+                            $this->status = UtilsConstants::SMS_STATUS_PENDING;
+                        } elseif ($status == 'Fallido') {
+                            $this->status = UtilsConstants::SMS_STATUS_FAIL;
+                        }
+
+                        $this->save();
+
+                        return true;
+                    }
+                    else {
+                        return false;
+                    }
+                }
+            }
+
+        }
+
+        return true;
     }
 
     public function fields()
