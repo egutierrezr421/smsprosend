@@ -147,6 +147,7 @@ class SmsController extends Controller
                 {
                     if($type === UtilsConstants::SMS_TYPE_NORMAL) {
                         if($model->sendSms()) {
+                            $model->save(false);
                             //descontar del balance del usuario
                             User::updateBalance($model->user_id,UtilsConstants::UPDATE_NUMBER_MINUS,$model->cost);
                         }

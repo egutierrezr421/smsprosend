@@ -230,9 +230,8 @@ class Sms extends BaseModel
             $start = 0;
             $list_multi_sms = [];
 
-            for($i=1; $i<=$total_sms; $i++)
+            for($i=0; $i<$total_sms; $i++)
             {
-                $label = 'message'.$i;
                 $extract_temp = substr($message,$start,150);
                 $response = $this->sendSmsQvatel($phone, $extract_temp);
 
@@ -242,7 +241,7 @@ class Sms extends BaseModel
                     $result = (int) $resObj->result;
 
                     if($result === 1) {
-                        $list_multi_sms[$label] = [
+                        $list_multi_sms[$i] = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_SENDED,
                             'id_msg' => $resObj->id_msg,
@@ -250,7 +249,7 @@ class Sms extends BaseModel
                     }
                     else
                     {
-                        $list_multi_sms[$label] = [
+                        $list_multi_sms[$i] = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_FAIL,
                             'id_msg' => '',
@@ -259,7 +258,7 @@ class Sms extends BaseModel
                 }
                 else
                 {
-                    $list_multi_sms[$label] = [
+                    $list_multi_sms[$i] = [
                         'response_qvatel' => '',
                         'status' => UtilsConstants::SMS_STATUS_FAIL,
                         'id_msg' => '',
@@ -274,6 +273,8 @@ class Sms extends BaseModel
             }
 
             $this->res_multisms = json_encode($list_multi_sms);
+
+            return true;
         }
         else
         {

@@ -129,7 +129,7 @@ class SmsGroupController extends Controller
                                 }
                                 else {
                                     $new_sms->sendSms();
-                                    $new_sms->save();
+                                    $new_sms->save(false);
                                     $sms_sended++;
                                 }
                             }
