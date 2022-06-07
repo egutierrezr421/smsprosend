@@ -365,6 +365,7 @@ class Sms extends BaseModel
 
                 if($count_sms_sent === $this->count_consumed)
                 {
+                    $this->res_multisms = json_encode($multi_response);
                     $this->status = UtilsConstants::SMS_STATUS_SUCCESS;
 
                     $this->save();
