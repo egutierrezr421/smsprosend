@@ -228,7 +228,7 @@ class Sms extends BaseModel
         $total_sms = ceil($total_characters/150);
         if($total_sms > 1) {
             $start = 0;
-            $result = [];
+            $list_multi_sms = [];
 
             for($i=1; $i<=$total_sms; $i++)
             {
@@ -245,7 +245,7 @@ class Sms extends BaseModel
 
 
                     if($result === 1) {
-                        $resObj->$label = [
+                        $list_multi_sms[$label] = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_SENDED,
                             'id_msg' => $resObj->id_msg,
@@ -253,7 +253,7 @@ class Sms extends BaseModel
                     }
                     else
                     {
-                        $resObj->$label = [
+                        $list_multi_sms[$label] = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_FAIL,
                             'id_msg' => '',
@@ -262,7 +262,7 @@ class Sms extends BaseModel
                 }
                 else
                 {
-                    $resObj->$label = [
+                    $list_multi_sms[$label] = [
                         'response_qvatel' => '',
                         'status' => UtilsConstants::SMS_STATUS_FAIL,
                         'id_msg' => '',
@@ -276,7 +276,7 @@ class Sms extends BaseModel
                 }
             }
 
-            $this->res_multisms = json_encode($result);
+            $this->res_multisms = json_encode($list_multi_sms);
         }
         else
         {
