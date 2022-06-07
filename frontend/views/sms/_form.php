@@ -20,26 +20,22 @@ use kartik\datecontrol\DateControl;
     <div class="row">
         <div class="col-md-6">
             <?=
-            $form->field($model, "customer_id")->widget(Select2::classname(), [
-                "data" => Customer::getSelectMap(),
-                "language" => Yii::$app->language,
-                "options" => ["placeholder" => "----", "multiple"=>false],
-                "pluginOptions" => [
-                    "allowClear" => true
-                ],
-            ])->label('Contacto');
+                $form->field($model, "customer_id")->widget(Select2::classname(), [
+                    "data" => Customer::getSelectMap(),
+                    "language" => Yii::$app->language,
+                    "options" => ["placeholder" => "----", "multiple"=>false],
+                    "pluginOptions" => [
+                        "allowClear" => true
+                    ],
+                ])->label('Contacto');
             ?>
         </div>
         <div class="col-md-6">
             <?=
-            $form->field($model, "type")->widget(Select2::classname(), [
-                "data" => UtilsConstants::getSmsType(),
-                "language" => Yii::$app->language,
-                "options" => ["placeholder" => "----", "multiple"=>false],
-                "pluginOptions" => [
-                    "allowClear" => true
-                ],
-            ]);
+                $form->field($model, "type")->widget(Select2::classname(), [
+                    "data" => UtilsConstants::getSmsType(),
+                    "language" => Yii::$app->language
+                ]);
             ?>
         </div>
     </div>
@@ -133,7 +129,6 @@ $(document).ready(function(e) {
                 }
             });
 		    }
-		    
 		}
 		
 		function checkHidden() {

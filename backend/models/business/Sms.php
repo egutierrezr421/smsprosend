@@ -32,6 +32,8 @@ use yii\helpers\Html;
  * @property string $updated_at
  * @property string $programmer_date
  * @property int $type
+ * @property int $count_consumed
+ * @property string $res_multisms
  *
  * @property Country $country
  * @property Customer $customer
@@ -57,15 +59,15 @@ class Sms extends BaseModel
         $regex = new RegexCustomValidator();
         return [
             [['receptor_country_id', 'receptor_phone_number','message'], 'required'],
-            [['user_id', 'customer_id', 'encrypt_type', 'status', 'receptor_country_id', 'type'], 'integer'],
+            [['user_id', 'customer_id', 'encrypt_type', 'status', 'receptor_country_id', 'type','count_consumed'], 'integer'],
             ['type', 'default', 'value' => Yii::$app->user->id],
             ['user_id', 'default', 'value' => Yii::$app->user->id],
             ['status', 'default', 'value' => UtilsConstants::SMS_STATUS_SENDED],
+            ['count_consumed', 'default', 'value' => 1],
            // [['message'], 'string', 'max' => 150],
-            [['message'], 'string'],
+            [['message', 'res_multisms', 'response_qvatel'], 'string'],
             [['created_at', 'updated_at', 'programmer_date'], 'safe'],
             [['id_msg'], 'string', 'max' => 255],
-            [['response_qvatel'], 'string'],
             ['cost','number'],
             ['receptor_phone_number', 'match', 'pattern' => $regex->getPatternOnlyNumber(), 'message' => $regex->getMessageOnlyNumber()],
             [['receptor_country_id'], 'exist', 'skipOnError' => true, 'targetClass' => Country::className(), 'targetAttribute' => ['receptor_country_id' => 'id']],
@@ -95,6 +97,8 @@ class Sms extends BaseModel
             'response_qvatel' => Yii::t('backend', 'Respuesta Qvatel'),
             'programmer_date' => Yii::t('backend', 'Fecha programado'),
             'type' => Yii::t('backend', 'Tipo'),
+            'count_consumed' => Yii::t('backend', 'Mensajes consumidos'),
+            'res_multisms' => Yii::t('backend', 'Respuestas multi-sms'),
         ];
     }
 
@@ -215,26 +219,101 @@ class Sms extends BaseModel
     }
 
     public function sendSms() {
-        $api_token = self::getTokenQvatel();
-        $qvatel  = new QvaTel($api_token);
-
         $receptor_country = Country::findOne($this->receptor_country_id);
         $phone = $receptor_country->phone_code.$this->receptor_phone_number;
         $message = $this->message;
 
-        /** Para enviar un sms  */
-        $response = $qvatel->enviar_sms($phone, $message);
+        /** Verificar si el mensaje es mayor que 150 caracteres para picarlo y enviar multiples mensajes **/
+        $total_characters = strlen($message);
+        $total_sms = ceil($total_characters/150);
+        if($total_sms > 1) {
+            $start = 0;
+            $result = [];
 
-        $this->response_qvatel = $response;
-        if($response) {
-            $resObj = json_decode($response);
-            $result = (int) $resObj->result;
+            for($i=1; $i<=$total_sms; $i++)
+            {
+                $extract_temp = substr($message,$start,150);
+                $response = $this->sendSmsQvatel($phone, $extract_temp);
 
-            if($result === 1) {
-                $this->id_msg = $resObj->id_msg;
+                if($response)
+                {
+                    $resObj = json_decode($response);
+                    $result = (int) $resObj->result;
 
-                return true;
+                    if($result === 1) {
+                        $result['message'.$i] = [
+                            'response_qvatel' => $response,
+                            'status' => UtilsConstants::SMS_STATUS_SENDED,
+                            'id_msg' => $resObj->id_msg,
+                        ];
+                    }
+                    else
+                    {
+                        $result['message'.$i] = [
+                            'response_qvatel' => $response,
+                            'status' => UtilsConstants::SMS_STATUS_FAIL,
+                            'id_msg' => '',
+                        ];
+                    }
+                }
+                else
+                {
+                    $result['message'.$i] = [
+                        'response_qvatel' => '',
+                        'status' => UtilsConstants::SMS_STATUS_FAIL,
+                        'id_msg' => '',
+                    ];
+                }
+
+                if($i > 1) {
+                    $start = 150*$i +1;
+                } else {
+                    $start = 151;
+                }
             }
+
+            $this->res_multisms = json_encode($result);
+        }
+        else
+        {
+            $response = $this->sendSmsQvatel($phone, $message);
+
+            if($response) {
+                $this->response_qvatel = $response;
+                $resObj = json_decode($response);
+                $result = (int) $resObj->result;
+
+                if($result === 1) {
+                    $this->id_msg = $resObj->id_msg;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+    }
+
+    /**
+     * @param $phone
+     * @param $message
+     * @return bool|mixed|string
+     */
+    private function sendSmsQvatel($phone, $message) {
+        $api_token = self::getTokenQvatel();
+        $qvatel  = new QvaTel($api_token);
+
+        try
+        {
+            /** Para enviar un sms  */
+            $response = $qvatel->enviar_sms($phone, $message);
+
+            if($response) {
+                return $response;
+            }
+        }
+        catch (\Exception $e)
+        {
+            return false;
         }
 
         return false;
@@ -243,25 +322,78 @@ class Sms extends BaseModel
     public function checkStatus() {
         $api_token = self::getTokenQvatel();
         $qvatel  = new QvaTel($api_token);
+        $total_sms = (int) $this->count_consumed;
+        $count_sms_sent = 0;
 
-        $response = $qvatel->reporte_sms($this->id_msg);
-        if($response) {
-            $resObj = json_decode($response);
-            $result = (int) $resObj->result;
+        if($total_sms > 1)
+        {
+            if($this->res_multisms !== null) {
+                $multi_response = json_decode($this->res_multisms);
 
-            if($result === 1) {
-                $status = $resObj->estado;
-                if($status == 'Entregado') {
-                    $this->status = UtilsConstants::SMS_STATUS_SUCCESS;
-                } elseif ($status == 'Pendiente') {
-                    $this->status = UtilsConstants::SMS_STATUS_PENDING;
-                } elseif ($status == 'Fallido') {
-                    $this->status = UtilsConstants::SMS_STATUS_FAIL;
+                for($i=0; $i<$total_sms; $i++)
+                {
+                    $id_msg = ($multi_response[$i]->id_msg !== '')? $multi_response[$i]->id_msg : false;
+
+                    if($id_msg) {
+                        $response = $qvatel->reporte_sms($id_msg);
+
+                        if($response)
+                        {
+                            $resObj = json_decode($response);
+                            $result = (int) $resObj->result;
+
+                            if($result === 1)
+                            {
+                                $status = $resObj->estado;
+                                if($status == 'Entregado') {
+                                    $multi_response[$i]->status = UtilsConstants::SMS_STATUS_SUCCESS;
+                                    $count_sms_sent++;
+                                } elseif ($status == 'Pendiente') {
+                                    $multi_response[$i]->status = UtilsConstants::SMS_STATUS_PENDING;
+                                } elseif ($status == 'Fallido') {
+                                    $multi_response[$i]->status = UtilsConstants::SMS_STATUS_FAIL;
+                                }
+                            }
+                            else {
+                                $multi_response[$i]->status = UtilsConstants::SMS_STATUS_FAIL;
+                            }
+                        }
+                    }
                 }
 
-                $this->save();
+                if($count_sms_sent === $this->count_consumed)
+                {
+                    $this->status = UtilsConstants::SMS_STATUS_SUCCESS;
 
-                return true;
+                    $this->save();
+
+                    return true;
+                }
+            }
+
+
+        }
+        else
+        {
+            $response = $qvatel->reporte_sms($this->id_msg);
+            if($response) {
+                $resObj = json_decode($response);
+                $result = (int) $resObj->result;
+
+                if($result === 1) {
+                    $status = $resObj->estado;
+                    if($status == 'Entregado') {
+                        $this->status = UtilsConstants::SMS_STATUS_SUCCESS;
+                    } elseif ($status == 'Pendiente') {
+                        $this->status = UtilsConstants::SMS_STATUS_PENDING;
+                    } elseif ($status == 'Fallido') {
+                        $this->status = UtilsConstants::SMS_STATUS_FAIL;
+                    }
+
+                    $this->save();
+
+                    return true;
+                }
             }
         }
 

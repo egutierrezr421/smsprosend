@@ -87,6 +87,7 @@ class SmsController extends ApiController
         $user_id = $result_access['user_id'];
         $customer_id = $result_access['customer_id'];
         $count_sms = 0;
+        $message = ArrayHelper::getValue($params, "message", null);
 
         //Validar que la oficina esté abierta
         $office_status = (int) Setting::getValueOfFieldName('office_status');
@@ -127,7 +128,10 @@ class SmsController extends ApiController
                     $phone_code = $explode[0];
                     $receptor_country = Country::findOne(['phone_code' => $phone_code, 'status' => 1]);
                     if($receptor_country !== null) {
-                        $total_cost += $receptor_country->sms_price;
+                        $total_characters = strlen($message);
+                        $total_sms = ceil($total_characters/150);
+                        $cost_temp = $total_sms * $receptor_country->sms_price;
+                        $total_cost += $cost_temp;
                     }
                     else
                     {
@@ -185,15 +189,14 @@ class SmsController extends ApiController
             }
         }
 
-        //validar longitud del mensaje que se envia
-        $message = ArrayHelper::getValue($params, "message", null);
-        $count_characters_message = strlen($message);
-        if($count_characters_message > 150) {
-            return ApiUtilsFunctions::getResponseType(
-                ApiUtilsFunctions::TYPE_ERROR,
-                Yii::t('backend', 'El mensaje a enviar no puede exceder los 150 caracteres.')
-            );
-        }
+//        //validar longitud del mensaje que se envia
+//        $count_characters_message = strlen($message);
+//        if($count_characters_message > 150) {
+//            return ApiUtilsFunctions::getResponseType(
+//                ApiUtilsFunctions::TYPE_ERROR,
+//                Yii::t('backend', 'El mensaje a enviar no puede exceder los 150 caracteres.')
+//            );
+//        }
 
         $sendOK = true;
         $nameErrorSend = '';
@@ -211,6 +214,10 @@ class SmsController extends ApiController
             $cost = $receptor_country->sms_price;
             $phone_number_complete = '+'.$phone_code.''.$phone_number;
 
+            $total_characters = strlen($message);
+            $total_sms = ceil($total_characters/150);
+            $cost_sms = $total_sms * $receptor_country->sms_price;
+
             $model = new Sms([
                 'user_id' => $result_access['user_id'],
                 'customer_id' => $result_access['customer_id'],
@@ -218,7 +225,8 @@ class SmsController extends ApiController
                 'receptor_country_id' => $receptor_country->id,
                 'receptor_phone_number' => $phone_number,
                 'status' => UtilsConstants::SMS_STATUS_SENDED,
-                'cost' => (isset($cost) && !empty($cost))? $cost : 0.05,
+                'count_consumed' => $total_sms,
+                'cost' => (isset($cost_sms) && !empty($cost_sms))? $cost_sms : 0.05,
             ]);
 
             if($model->validate() && $model->sendSms() && $model->save())

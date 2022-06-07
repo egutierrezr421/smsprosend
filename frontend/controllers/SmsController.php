@@ -97,14 +97,16 @@ class SmsController extends Controller
             $model->receptor_phone_number = $customer->phone_number;
         }
 
-
         if ($model->load(Yii::$app->request->post()))
         {
             $transaction = \Yii::$app->db->beginTransaction();
 
             try
             {
-                $model->cost = $model->country->sms_price;
+                $total_characters = strlen($model->message);
+                $total_sms = ceil($total_characters/150);
+                $model->count_consumed = $total_sms;
+                $model->cost = $total_sms * $model->country->sms_price;
                 $current_balance = Recharge::getAvailableBalance();
                 $type = (int) $model->type;
 

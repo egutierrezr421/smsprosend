@@ -104,6 +104,10 @@ class SmsGroupController extends Controller
                             $all_customers = $group->customers;
                             foreach ($all_customers AS $idx => $customer)
                             {
+                                $total_characters = strlen($model->message);
+                                $total_sms = ceil($total_characters/150);
+                                $cost_sms = $total_sms * $customer->country->sms_price;
+
                                 $new_sms = new Sms([
                                     'user_id' => Yii::$app->user->id,
                                     'customer_id' => $model->customer_id,
@@ -111,8 +115,8 @@ class SmsGroupController extends Controller
                                     'receptor_country_id' => $customer->country_id,
                                     'receptor_phone_number' => $customer->phone_number,
                                     'status' => UtilsConstants::SMS_STATUS_SENDED,
-                                    'cost' => $customer->country->sms_price
-
+                                    'count_consumed' => $total_sms,
+                                    'cost' => (isset($cost_sms) && !empty($cost_sms))? $cost_sms : 0.05,
                                 ]);
 
                                 $current_balance = Recharge::getAvailableBalance();
