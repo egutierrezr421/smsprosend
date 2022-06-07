@@ -232,6 +232,7 @@ class Sms extends BaseModel
 
             for($i=1; $i<=$total_sms; $i++)
             {
+                $label = 'message'.$i;
                 $extract_temp = substr($message,$start,150);
                 $response = $this->sendSmsQvatel($phone, $extract_temp);
 
@@ -241,7 +242,7 @@ class Sms extends BaseModel
                     $result = (int) $resObj->result;
 
                     if($result === 1) {
-                        $result["message$i"] = [
+                        $result->$label = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_SENDED,
                             'id_msg' => $resObj->id_msg,
@@ -249,7 +250,7 @@ class Sms extends BaseModel
                     }
                     else
                     {
-                        $result["message$i"] = [
+                        $result->$label = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_FAIL,
                             'id_msg' => '',
@@ -258,7 +259,7 @@ class Sms extends BaseModel
                 }
                 else
                 {
-                    $result["message$i"] = [
+                    $result->$label = [
                         'response_qvatel' => '',
                         'status' => UtilsConstants::SMS_STATUS_FAIL,
                         'id_msg' => '',
