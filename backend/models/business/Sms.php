@@ -241,9 +241,6 @@ class Sms extends BaseModel
                     $resObj = json_decode($response);
                     $result = (int) $resObj->result;
 
-                    print_r($resObj);die();
-
-
                     if($result === 1) {
                         $list_multi_sms[$label] = [
                             'response_qvatel' => $response,
