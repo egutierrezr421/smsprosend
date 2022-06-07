@@ -241,7 +241,7 @@ class Sms extends BaseModel
                     $result = (int) $resObj->result;
 
                     if($result === 1) {
-                        $result['message'.$i] = [
+                        $result["message$i"] = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_SENDED,
                             'id_msg' => $resObj->id_msg,
@@ -249,7 +249,7 @@ class Sms extends BaseModel
                     }
                     else
                     {
-                        $result['message'.$i] = [
+                        $result["message$i"] = [
                             'response_qvatel' => $response,
                             'status' => UtilsConstants::SMS_STATUS_FAIL,
                             'id_msg' => '',
@@ -258,7 +258,7 @@ class Sms extends BaseModel
                 }
                 else
                 {
-                    $result['message'.$i] = [
+                    $result["message$i"] = [
                         'response_qvatel' => '',
                         'status' => UtilsConstants::SMS_STATUS_FAIL,
                         'id_msg' => '',
